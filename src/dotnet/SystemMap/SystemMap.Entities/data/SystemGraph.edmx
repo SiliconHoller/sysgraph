@@ -1,0 +1,1207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SystemMapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="attribute_types">
+          <Key>
+            <PropertyRef Name="attrtypeid" />
+          </Key>
+          <Property Name="attrtypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
+        <EntityType Name="doc_type">
+          <Key>
+            <PropertyRef Name="doctypeid" />
+          </Key>
+          <Property Name="doctypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="typename" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="iconurl" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="edge_docs">
+          <Key>
+            <PropertyRef Name="edge_docid" />
+          </Key>
+          <Property Name="edge_docid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="edgeid" Type="int" Nullable="false" />
+          <Property Name="doctypeid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="docurl" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="edges">
+          <Key>
+            <PropertyRef Name="edgeid" />
+          </Key>
+          <Property Name="edgeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="edgetypeid" Type="int" Nullable="false" />
+          <Property Name="from_node" Type="int" Nullable="false" />
+          <Property Name="to_node" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
+        <EntityType Name="edgetypes">
+          <Key>
+            <PropertyRef Name="edgetypeid" />
+          </Key>
+          <Property Name="edgetypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="iconurl" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="membership_types">
+          <Key>
+            <PropertyRef Name="memtypeid" />
+          </Key>
+          <Property Name="memtypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="typename" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="iconurl" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="node_attributes">
+          <Key>
+            <PropertyRef Name="attributeid" />
+          </Key>
+          <Property Name="attributeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nodeid" Type="int" Nullable="false" />
+          <Property Name="attrtypeid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
+        <EntityType Name="node_docs">
+          <Key>
+            <PropertyRef Name="node_docid" />
+          </Key>
+          <Property Name="node_docid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nodeid" Type="int" Nullable="false" />
+          <Property Name="doctypeid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="docurl" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="node_membership">
+          <Key>
+            <PropertyRef Name="groupnode_id" />
+            <PropertyRef Name="membernode_id" />
+          </Key>
+          <Property Name="groupnode_id" Type="int" Nullable="false" />
+          <Property Name="membernode_id" Type="int" Nullable="false" />
+          <Property Name="memtypeid" Type="int" />
+        </EntityType>
+        <EntityType Name="nodes">
+          <Key>
+            <PropertyRef Name="nodeid" />
+          </Key>
+          <Property Name="nodeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="typeid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
+        <EntityType Name="nodetypes">
+          <Key>
+            <PropertyRef Name="typeid" />
+          </Key>
+          <Property Name="typeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="iconurl" Type="nvarchar" MaxLength="1024" />
+          <Property Name="descr" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="process_docs">
+          <Key>
+            <PropertyRef Name="process_docid" />
+          </Key>
+          <Property Name="process_docid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="processid" Type="int" Nullable="false" />
+          <Property Name="doctypeid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="docurl" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="process_membership">
+          <Key>
+            <PropertyRef Name="processid" />
+            <PropertyRef Name="processedge_id" />
+          </Key>
+          <Property Name="processid" Type="int" Nullable="false" />
+          <Property Name="processedge_id" Type="int" Nullable="false" />
+          <Property Name="memtypeid" Type="int" />
+        </EntityType>
+        <EntityType Name="processes">
+          <Key>
+            <PropertyRef Name="processid" />
+          </Key>
+          <Property Name="processid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="edgetypeid" Type="int" Nullable="false" />
+          <Property Name="from_node" Type="int" Nullable="false" />
+          <Property Name="to_node" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
+        <Association Name="FK_edge_fromnode">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="edges" Type="Self.edges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="edges">
+              <PropertyRef Name="from_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edge_tonode">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="edges" Type="Self.edges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="edges">
+              <PropertyRef Name="to_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edge_type">
+          <End Role="edgetypes" Type="Self.edgetypes" Multiplicity="1" />
+          <End Role="edges" Type="Self.edges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edgetypes">
+              <PropertyRef Name="edgetypeid" />
+            </Principal>
+            <Dependent Role="edges">
+              <PropertyRef Name="edgetypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edgedoc_doctype">
+          <End Role="doc_type" Type="Self.doc_type" Multiplicity="1" />
+          <End Role="edge_docs" Type="Self.edge_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doc_type">
+              <PropertyRef Name="doctypeid" />
+            </Principal>
+            <Dependent Role="edge_docs">
+              <PropertyRef Name="doctypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_edgedoc_edge">
+          <End Role="edges" Type="Self.edges" Multiplicity="1" />
+          <End Role="edge_docs" Type="Self.edge_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edges">
+              <PropertyRef Name="edgeid" />
+            </Principal>
+            <Dependent Role="edge_docs">
+              <PropertyRef Name="edgeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_node_nodetypes">
+          <End Role="nodetypes" Type="Self.nodetypes" Multiplicity="1" />
+          <End Role="nodes" Type="Self.nodes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodetypes">
+              <PropertyRef Name="typeid" />
+            </Principal>
+            <Dependent Role="nodes">
+              <PropertyRef Name="typeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodeattr_attrtype">
+          <End Role="attribute_types" Type="Self.attribute_types" Multiplicity="1" />
+          <End Role="node_attributes" Type="Self.node_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attribute_types">
+              <PropertyRef Name="attrtypeid" />
+            </Principal>
+            <Dependent Role="node_attributes">
+              <PropertyRef Name="attrtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodeattr_node">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="node_attributes" Type="Self.node_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_attributes">
+              <PropertyRef Name="nodeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodedoc_doctype">
+          <End Role="doc_type" Type="Self.doc_type" Multiplicity="1" />
+          <End Role="node_docs" Type="Self.node_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doc_type">
+              <PropertyRef Name="doctypeid" />
+            </Principal>
+            <Dependent Role="node_docs">
+              <PropertyRef Name="doctypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_nodedoc_nodes">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="node_docs" Type="Self.node_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_docs">
+              <PropertyRef Name="nodeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodemembership_group">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="node_membership" Type="Self.node_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_membership">
+              <PropertyRef Name="groupnode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodemembership_member">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="node_membership" Type="Self.node_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_membership">
+              <PropertyRef Name="membernode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodemembership_type">
+          <End Role="membership_types" Type="Self.membership_types" Multiplicity="0..1" />
+          <End Role="node_membership" Type="Self.node_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="membership_types">
+              <PropertyRef Name="memtypeid" />
+            </Principal>
+            <Dependent Role="node_membership">
+              <PropertyRef Name="memtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_process_fromnode">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="processes" Type="Self.processes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="processes">
+              <PropertyRef Name="from_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_process_tonode">
+          <End Role="nodes" Type="Self.nodes" Multiplicity="1" />
+          <End Role="processes" Type="Self.processes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="processes">
+              <PropertyRef Name="to_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_process_type">
+          <End Role="edgetypes" Type="Self.edgetypes" Multiplicity="1" />
+          <End Role="processes" Type="Self.processes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edgetypes">
+              <PropertyRef Name="edgetypeid" />
+            </Principal>
+            <Dependent Role="processes">
+              <PropertyRef Name="edgetypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_processdoc_doctype">
+          <End Role="doc_type" Type="Self.doc_type" Multiplicity="1" />
+          <End Role="process_docs" Type="Self.process_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doc_type">
+              <PropertyRef Name="doctypeid" />
+            </Principal>
+            <Dependent Role="process_docs">
+              <PropertyRef Name="doctypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_processdoc_process">
+          <End Role="processes" Type="Self.processes" Multiplicity="1" />
+          <End Role="process_docs" Type="Self.process_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="processes">
+              <PropertyRef Name="processid" />
+            </Principal>
+            <Dependent Role="process_docs">
+              <PropertyRef Name="processid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_processmembership_edge">
+          <End Role="edges" Type="Self.edges" Multiplicity="1" />
+          <End Role="process_membership" Type="Self.process_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edges">
+              <PropertyRef Name="edgeid" />
+            </Principal>
+            <Dependent Role="process_membership">
+              <PropertyRef Name="processedge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_processmembership_process">
+          <End Role="processes" Type="Self.processes" Multiplicity="1" />
+          <End Role="process_membership" Type="Self.process_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="processes">
+              <PropertyRef Name="processid" />
+            </Principal>
+            <Dependent Role="process_membership">
+              <PropertyRef Name="processid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_processmembership_type">
+          <End Role="membership_types" Type="Self.membership_types" Multiplicity="0..1" />
+          <End Role="process_membership" Type="Self.process_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="membership_types">
+              <PropertyRef Name="memtypeid" />
+            </Principal>
+            <Dependent Role="process_membership">
+              <PropertyRef Name="memtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SystemMapModelStoreContainer">
+          <EntitySet Name="attribute_types" EntityType="Self.attribute_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="doc_type" EntityType="Self.doc_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="edge_docs" EntityType="Self.edge_docs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="edges" EntityType="Self.edges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="edgetypes" EntityType="Self.edgetypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="membership_types" EntityType="Self.membership_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="node_attributes" EntityType="Self.node_attributes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="node_docs" EntityType="Self.node_docs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="node_membership" EntityType="Self.node_membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="nodes" EntityType="Self.nodes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="nodetypes" EntityType="Self.nodetypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="process_docs" EntityType="Self.process_docs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="process_membership" EntityType="Self.process_membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="processes" EntityType="Self.processes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_edge_fromnode" Association="Self.FK_edge_fromnode">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="edges" EntitySet="edges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edge_tonode" Association="Self.FK_edge_tonode">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="edges" EntitySet="edges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edge_type" Association="Self.FK_edge_type">
+            <End Role="edgetypes" EntitySet="edgetypes" />
+            <End Role="edges" EntitySet="edges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edgedoc_doctype" Association="Self.FK_edgedoc_doctype">
+            <End Role="doc_type" EntitySet="doc_type" />
+            <End Role="edge_docs" EntitySet="edge_docs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_edgedoc_edge" Association="Self.fk_edgedoc_edge">
+            <End Role="edges" EntitySet="edges" />
+            <End Role="edge_docs" EntitySet="edge_docs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_node_nodetypes" Association="Self.FK_node_nodetypes">
+            <End Role="nodetypes" EntitySet="nodetypes" />
+            <End Role="nodes" EntitySet="nodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodeattr_attrtype" Association="Self.FK_nodeattr_attrtype">
+            <End Role="attribute_types" EntitySet="attribute_types" />
+            <End Role="node_attributes" EntitySet="node_attributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodeattr_node" Association="Self.FK_nodeattr_node">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="node_attributes" EntitySet="node_attributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodedoc_doctype" Association="Self.FK_nodedoc_doctype">
+            <End Role="doc_type" EntitySet="doc_type" />
+            <End Role="node_docs" EntitySet="node_docs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_nodedoc_nodes" Association="Self.fk_nodedoc_nodes">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="node_docs" EntitySet="node_docs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodemembership_group" Association="Self.FK_nodemembership_group">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="node_membership" EntitySet="node_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodemembership_member" Association="Self.FK_nodemembership_member">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="node_membership" EntitySet="node_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodemembership_type" Association="Self.FK_nodemembership_type">
+            <End Role="membership_types" EntitySet="membership_types" />
+            <End Role="node_membership" EntitySet="node_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_process_fromnode" Association="Self.FK_process_fromnode">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="processes" EntitySet="processes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_process_tonode" Association="Self.FK_process_tonode">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="processes" EntitySet="processes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_process_type" Association="Self.FK_process_type">
+            <End Role="edgetypes" EntitySet="edgetypes" />
+            <End Role="processes" EntitySet="processes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_processdoc_doctype" Association="Self.FK_processdoc_doctype">
+            <End Role="doc_type" EntitySet="doc_type" />
+            <End Role="process_docs" EntitySet="process_docs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_processdoc_process" Association="Self.fk_processdoc_process">
+            <End Role="processes" EntitySet="processes" />
+            <End Role="process_docs" EntitySet="process_docs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_processmembership_edge" Association="Self.FK_processmembership_edge">
+            <End Role="edges" EntitySet="edges" />
+            <End Role="process_membership" EntitySet="process_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_processmembership_process" Association="Self.FK_processmembership_process">
+            <End Role="processes" EntitySet="processes" />
+            <End Role="process_membership" EntitySet="process_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_processmembership_type" Association="Self.FK_processmembership_type">
+            <End Role="membership_types" EntitySet="membership_types" />
+            <End Role="process_membership" EntitySet="process_membership" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SystemMapModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="attribute_types">
+          <Key>
+            <PropertyRef Name="attrtypeid" />
+          </Key>
+          <Property Name="attrtypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="node_attributes" Relationship="Self.FK_nodeattr_attrtype" FromRole="attribute_types" ToRole="node_attributes" />
+        </EntityType>
+        <EntityType Name="doc_type">
+          <Key>
+            <PropertyRef Name="doctypeid" />
+          </Key>
+          <Property Name="doctypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="typename" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="edge_docs" Relationship="Self.FK_edgedoc_doctype" FromRole="doc_type" ToRole="edge_docs" />
+          <NavigationProperty Name="node_docs" Relationship="Self.FK_nodedoc_doctype" FromRole="doc_type" ToRole="node_docs" />
+          <NavigationProperty Name="process_docs" Relationship="SystemMapModel.FK_processdoc_doctype" FromRole="doc_type" ToRole="process_docs" />
+          <Property Name="iconurl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="edge_docs">
+          <Key>
+            <PropertyRef Name="edge_docid" />
+          </Key>
+          <Property Name="edge_docid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="doctypeid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <Property Name="docurl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="doc_type" Relationship="Self.FK_edgedoc_doctype" FromRole="edge_docs" ToRole="doc_type" />
+          <Property Name="edgeid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="edge" Relationship="SystemMapModel.fk_edgedoc_edge" FromRole="edge_docs" ToRole="edge" />
+        </EntityType>
+        <EntityType Name="edge">
+          <Key>
+            <PropertyRef Name="edgeid" />
+          </Key>
+          <Property Name="edgeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="edgetypeid" Type="Int32" Nullable="false" />
+          <Property Name="from_node" Type="Int32" Nullable="false" />
+          <Property Name="to_node" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="node" Relationship="Self.FK_edge_fromnode" FromRole="edges" ToRole="nodes" />
+          <NavigationProperty Name="node1" Relationship="Self.FK_edge_tonode" FromRole="edges" ToRole="nodes" />
+          <NavigationProperty Name="edge_docs" Relationship="SystemMapModel.fk_edgedoc_edge" FromRole="edge" ToRole="edge_docs" />
+          <NavigationProperty Name="edgetype" Relationship="SystemMapModel.FK_edge_type" FromRole="edge" ToRole="edgetype" />
+          <NavigationProperty Name="process_membership" Relationship="SystemMapModel.FK_processmembership_edge" FromRole="edge" ToRole="process_membership" />
+        </EntityType>
+        <EntityType Name="edgetype">
+          <Key>
+            <PropertyRef Name="edgetypeid" />
+          </Key>
+          <Property Name="edgetypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="edges" Relationship="SystemMapModel.FK_edge_type" FromRole="edgetype" ToRole="edge" />
+          <NavigationProperty Name="processes" Relationship="SystemMapModel.FK_process_type" FromRole="edgetype" ToRole="process" />
+          <Property Name="iconurl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="membership_types">
+          <Key>
+            <PropertyRef Name="memtypeid" />
+          </Key>
+          <Property Name="memtypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="typename" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="node_membership" Relationship="Self.FK_nodemembership_type" FromRole="membership_types" ToRole="node_membership" />
+          <NavigationProperty Name="process_membership" Relationship="SystemMapModel.FK_processmembership_type" FromRole="membership_types" ToRole="process_membership" />
+          <Property Name="iconurl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="node_attributes">
+          <Key>
+            <PropertyRef Name="attributeid" />
+          </Key>
+          <Property Name="attributeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="attrtypeid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="attribute_types" Relationship="Self.FK_nodeattr_attrtype" FromRole="node_attributes" ToRole="attribute_types" />
+          <Property Name="nodeid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="node" Relationship="SystemMapModel.FK_nodeattr_node" FromRole="node_attributes" ToRole="node" />
+        </EntityType>
+        <EntityType Name="node_docs">
+          <Key>
+            <PropertyRef Name="node_docid" />
+          </Key>
+          <Property Name="node_docid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="doctypeid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <Property Name="docurl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="doc_type" Relationship="Self.FK_nodedoc_doctype" FromRole="node_docs" ToRole="doc_type" />
+          <Property Name="nodeid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="node" Relationship="SystemMapModel.fk_nodedoc_nodes" FromRole="node_docs" ToRole="node" />
+        </EntityType>
+        <EntityType Name="node_membership">
+          <Key>
+            <PropertyRef Name="groupnode_id" />
+            <PropertyRef Name="membernode_id" />
+          </Key>
+          <Property Name="groupnode_id" Type="Int32" Nullable="false" />
+          <Property Name="membernode_id" Type="Int32" Nullable="false" />
+          <Property Name="memtypeid" Type="Int32" />
+          <NavigationProperty Name="membership_types" Relationship="Self.FK_nodemembership_type" FromRole="node_membership" ToRole="membership_types" />
+          <NavigationProperty Name="node" Relationship="Self.FK_nodemembership_group" FromRole="node_membership" ToRole="nodes" />
+          <NavigationProperty Name="node1" Relationship="Self.FK_nodemembership_member" FromRole="node_membership" ToRole="nodes" />
+        </EntityType>
+        <EntityType Name="node">
+          <Key>
+            <PropertyRef Name="nodeid" />
+          </Key>
+          <Property Name="nodeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="typeid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="edges" Relationship="Self.FK_edge_fromnode" FromRole="nodes" ToRole="edges" />
+          <NavigationProperty Name="edges1" Relationship="Self.FK_edge_tonode" FromRole="nodes" ToRole="edges" />
+          <NavigationProperty Name="node_membership" Relationship="Self.FK_nodemembership_group" FromRole="nodes" ToRole="node_membership" />
+          <NavigationProperty Name="node_membership1" Relationship="Self.FK_nodemembership_member" FromRole="nodes" ToRole="node_membership" />
+          <NavigationProperty Name="nodetype" Relationship="Self.FK_node_nodetypes" FromRole="nodes" ToRole="nodetypes" />
+          <NavigationProperty Name="node_attributes" Relationship="SystemMapModel.FK_nodeattr_node" FromRole="node" ToRole="node_attributes" />
+          <NavigationProperty Name="node_docs" Relationship="SystemMapModel.fk_nodedoc_nodes" FromRole="node" ToRole="node_docs" />
+          <NavigationProperty Name="processes" Relationship="SystemMapModel.FK_process_fromnode" FromRole="node" ToRole="process" />
+          <NavigationProperty Name="processes1" Relationship="SystemMapModel.FK_process_tonode" FromRole="node" ToRole="process" />
+        </EntityType>
+        <EntityType Name="nodetype">
+          <Key>
+            <PropertyRef Name="typeid" />
+          </Key>
+          <Property Name="typeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="iconurl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="nodes" Relationship="Self.FK_node_nodetypes" FromRole="nodetypes" ToRole="nodes" />
+          <Property Name="descr" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_nodeattr_attrtype">
+          <End Role="attribute_types" Type="Self.attribute_types" Multiplicity="1" />
+          <End Role="node_attributes" Type="Self.node_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attribute_types">
+              <PropertyRef Name="attrtypeid" />
+            </Principal>
+            <Dependent Role="node_attributes">
+              <PropertyRef Name="attrtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edgedoc_doctype">
+          <End Role="doc_type" Type="Self.doc_type" Multiplicity="1" />
+          <End Role="edge_docs" Type="Self.edge_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doc_type">
+              <PropertyRef Name="doctypeid" />
+            </Principal>
+            <Dependent Role="edge_docs">
+              <PropertyRef Name="doctypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodedoc_doctype">
+          <End Role="doc_type" Type="Self.doc_type" Multiplicity="1" />
+          <End Role="node_docs" Type="Self.node_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doc_type">
+              <PropertyRef Name="doctypeid" />
+            </Principal>
+            <Dependent Role="node_docs">
+              <PropertyRef Name="doctypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edge_fromnode">
+          <End Role="nodes" Type="Self.node" Multiplicity="1" />
+          <End Role="edges" Type="Self.edge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="edges">
+              <PropertyRef Name="from_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edge_tonode">
+          <End Role="nodes" Type="Self.node" Multiplicity="1" />
+          <End Role="edges" Type="Self.edge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="edges">
+              <PropertyRef Name="to_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodemembership_type">
+          <End Role="membership_types" Type="Self.membership_types" Multiplicity="0..1" />
+          <End Role="node_membership" Type="Self.node_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="membership_types">
+              <PropertyRef Name="memtypeid" />
+            </Principal>
+            <Dependent Role="node_membership">
+              <PropertyRef Name="memtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodemembership_group">
+          <End Role="nodes" Type="Self.node" Multiplicity="1" />
+          <End Role="node_membership" Type="Self.node_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_membership">
+              <PropertyRef Name="groupnode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodemembership_member">
+          <End Role="nodes" Type="Self.node" Multiplicity="1" />
+          <End Role="node_membership" Type="Self.node_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodes">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_membership">
+              <PropertyRef Name="membernode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_node_nodetypes">
+          <End Role="nodetypes" Type="Self.nodetype" Multiplicity="1" />
+          <End Role="nodes" Type="Self.node" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="nodetypes">
+              <PropertyRef Name="typeid" />
+            </Principal>
+            <Dependent Role="nodes">
+              <PropertyRef Name="typeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SystemMapEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="attribute_types" EntityType="Self.attribute_types" />
+          <EntitySet Name="doc_type" EntityType="Self.doc_type" />
+          <EntitySet Name="edge_docs" EntityType="Self.edge_docs" />
+          <EntitySet Name="edges" EntityType="Self.edge" />
+          <EntitySet Name="edgetypes" EntityType="Self.edgetype" />
+          <EntitySet Name="membership_types" EntityType="Self.membership_types" />
+          <EntitySet Name="node_attributes" EntityType="Self.node_attributes" />
+          <EntitySet Name="node_docs" EntityType="Self.node_docs" />
+          <EntitySet Name="node_membership" EntityType="Self.node_membership" />
+          <EntitySet Name="nodes" EntityType="Self.node" />
+          <EntitySet Name="nodetypes" EntityType="Self.nodetype" />
+          <AssociationSet Name="FK_nodeattr_attrtype" Association="Self.FK_nodeattr_attrtype">
+            <End Role="attribute_types" EntitySet="attribute_types" />
+            <End Role="node_attributes" EntitySet="node_attributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edgedoc_doctype" Association="Self.FK_edgedoc_doctype">
+            <End Role="doc_type" EntitySet="doc_type" />
+            <End Role="edge_docs" EntitySet="edge_docs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodedoc_doctype" Association="Self.FK_nodedoc_doctype">
+            <End Role="doc_type" EntitySet="doc_type" />
+            <End Role="node_docs" EntitySet="node_docs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edge_fromnode" Association="Self.FK_edge_fromnode">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="edges" EntitySet="edges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edge_tonode" Association="Self.FK_edge_tonode">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="edges" EntitySet="edges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodemembership_type" Association="Self.FK_nodemembership_type">
+            <End Role="membership_types" EntitySet="membership_types" />
+            <End Role="node_membership" EntitySet="node_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodemembership_group" Association="Self.FK_nodemembership_group">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="node_membership" EntitySet="node_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodemembership_member" Association="Self.FK_nodemembership_member">
+            <End Role="nodes" EntitySet="nodes" />
+            <End Role="node_membership" EntitySet="node_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_node_nodetypes" Association="Self.FK_node_nodetypes">
+            <End Role="nodetypes" EntitySet="nodetypes" />
+            <End Role="nodes" EntitySet="nodes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_edgedoc_edge" Association="SystemMapModel.fk_edgedoc_edge">
+            <End Role="edge" EntitySet="edges" />
+            <End Role="edge_docs" EntitySet="edge_docs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edge_type" Association="SystemMapModel.FK_edge_type">
+            <End Role="edgetype" EntitySet="edgetypes" />
+            <End Role="edge" EntitySet="edges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodeattr_node" Association="SystemMapModel.FK_nodeattr_node">
+            <End Role="node" EntitySet="nodes" />
+            <End Role="node_attributes" EntitySet="node_attributes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_nodedoc_nodes" Association="SystemMapModel.fk_nodedoc_nodes">
+            <End Role="node" EntitySet="nodes" />
+            <End Role="node_docs" EntitySet="node_docs" />
+          </AssociationSet>
+          <EntitySet Name="processes" EntityType="SystemMapModel.process" />
+          <AssociationSet Name="FK_process_type" Association="SystemMapModel.FK_process_type">
+            <End Role="edgetype" EntitySet="edgetypes" />
+            <End Role="process" EntitySet="processes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_process_fromnode" Association="SystemMapModel.FK_process_fromnode">
+            <End Role="node" EntitySet="nodes" />
+            <End Role="process" EntitySet="processes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_process_tonode" Association="SystemMapModel.FK_process_tonode">
+            <End Role="node" EntitySet="nodes" />
+            <End Role="process" EntitySet="processes" />
+          </AssociationSet>
+          <EntitySet Name="process_membership" EntityType="SystemMapModel.process_membership" />
+          <AssociationSet Name="FK_processmembership_edge" Association="SystemMapModel.FK_processmembership_edge">
+            <End Role="edge" EntitySet="edges" />
+            <End Role="process_membership" EntitySet="process_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_processmembership_type" Association="SystemMapModel.FK_processmembership_type">
+            <End Role="membership_types" EntitySet="membership_types" />
+            <End Role="process_membership" EntitySet="process_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_processmembership_process" Association="SystemMapModel.FK_processmembership_process">
+            <End Role="process" EntitySet="processes" />
+            <End Role="process_membership" EntitySet="process_membership" />
+          </AssociationSet>
+          <EntitySet Name="process_docs" EntityType="SystemMapModel.process_docs" />
+          <AssociationSet Name="FK_processdoc_doctype" Association="SystemMapModel.FK_processdoc_doctype">
+            <End Role="doc_type" EntitySet="doc_type" />
+            <End Role="process_docs" EntitySet="process_docs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_processdoc_process" Association="SystemMapModel.fk_processdoc_process">
+            <End Role="process" EntitySet="processes" />
+            <End Role="process_docs" EntitySet="process_docs" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="fk_edgedoc_edge">
+          <End Type="SystemMapModel.edge" Role="edge" Multiplicity="1" />
+          <End Type="SystemMapModel.edge_docs" Role="edge_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edge">
+              <PropertyRef Name="edgeid" />
+            </Principal>
+            <Dependent Role="edge_docs">
+              <PropertyRef Name="edgeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edge_type">
+          <End Type="SystemMapModel.edgetype" Role="edgetype" Multiplicity="1" />
+          <End Type="SystemMapModel.edge" Role="edge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edgetype">
+              <PropertyRef Name="edgetypeid" />
+            </Principal>
+            <Dependent Role="edge">
+              <PropertyRef Name="edgetypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodeattr_node">
+          <End Type="SystemMapModel.node" Role="node" Multiplicity="1" />
+          <End Type="SystemMapModel.node_attributes" Role="node_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="node">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_attributes">
+              <PropertyRef Name="nodeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_nodedoc_nodes">
+          <End Type="SystemMapModel.node" Role="node" Multiplicity="1" />
+          <End Type="SystemMapModel.node_docs" Role="node_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="node">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_docs">
+              <PropertyRef Name="nodeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="process">
+          <Key>
+            <PropertyRef Name="processid" />
+          </Key>
+          <Property Name="processid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="edgetypeid" Type="Int32" Nullable="false" />
+          <Property Name="from_node" Type="Int32" Nullable="false" />
+          <Property Name="to_node" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="edgetype" Relationship="SystemMapModel.FK_process_type" FromRole="process" ToRole="edgetype" />
+          <NavigationProperty Name="node" Relationship="SystemMapModel.FK_process_fromnode" FromRole="process" ToRole="node" />
+          <NavigationProperty Name="node1" Relationship="SystemMapModel.FK_process_tonode" FromRole="process" ToRole="node" />
+          <NavigationProperty Name="process_membership" Relationship="SystemMapModel.FK_processmembership_process" FromRole="process" ToRole="process_membership" />
+          <NavigationProperty Name="process_docs" Relationship="SystemMapModel.fk_processdoc_process" FromRole="process" ToRole="process_docs" />
+        </EntityType>
+        <Association Name="FK_process_type">
+          <End Type="SystemMapModel.edgetype" Role="edgetype" Multiplicity="1" />
+          <End Type="SystemMapModel.process" Role="process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edgetype">
+              <PropertyRef Name="edgetypeid" />
+            </Principal>
+            <Dependent Role="process">
+              <PropertyRef Name="edgetypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_process_fromnode">
+          <End Type="SystemMapModel.node" Role="node" Multiplicity="1" />
+          <End Type="SystemMapModel.process" Role="process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="node">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="process">
+              <PropertyRef Name="from_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_process_tonode">
+          <End Type="SystemMapModel.node" Role="node" Multiplicity="1" />
+          <End Type="SystemMapModel.process" Role="process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="node">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="process">
+              <PropertyRef Name="to_node" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="process_membership">
+          <Key>
+            <PropertyRef Name="processid" />
+            <PropertyRef Name="processedge_id" />
+          </Key>
+          <Property Name="processid" Type="Int32" Nullable="false" />
+          <Property Name="processedge_id" Type="Int32" Nullable="false" />
+          <Property Name="memtypeid" Type="Int32" />
+          <NavigationProperty Name="edge" Relationship="SystemMapModel.FK_processmembership_edge" FromRole="process_membership" ToRole="edge" />
+          <NavigationProperty Name="membership_types" Relationship="SystemMapModel.FK_processmembership_type" FromRole="process_membership" ToRole="membership_types" />
+          <NavigationProperty Name="process" Relationship="SystemMapModel.FK_processmembership_process" FromRole="process_membership" ToRole="process" />
+        </EntityType>
+        <Association Name="FK_processmembership_edge">
+          <End Type="SystemMapModel.edge" Role="edge" Multiplicity="1" />
+          <End Type="SystemMapModel.process_membership" Role="process_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edge">
+              <PropertyRef Name="edgeid" />
+            </Principal>
+            <Dependent Role="process_membership">
+              <PropertyRef Name="processedge_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_processmembership_type">
+          <End Type="SystemMapModel.membership_types" Role="membership_types" Multiplicity="0..1" />
+          <End Type="SystemMapModel.process_membership" Role="process_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="membership_types">
+              <PropertyRef Name="memtypeid" />
+            </Principal>
+            <Dependent Role="process_membership">
+              <PropertyRef Name="memtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_processmembership_process">
+          <End Type="SystemMapModel.process" Role="process" Multiplicity="1" />
+          <End Type="SystemMapModel.process_membership" Role="process_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="process">
+              <PropertyRef Name="processid" />
+            </Principal>
+            <Dependent Role="process_membership">
+              <PropertyRef Name="processid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="process_docs">
+          <Key>
+            <PropertyRef Name="process_docid" />
+          </Key>
+          <Property Name="process_docid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="processid" Type="Int32" Nullable="false" />
+          <Property Name="doctypeid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <Property Name="docurl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="doc_type" Relationship="SystemMapModel.FK_processdoc_doctype" FromRole="process_docs" ToRole="doc_type" />
+          <NavigationProperty Name="process" Relationship="SystemMapModel.fk_processdoc_process" FromRole="process_docs" ToRole="process" />
+        </EntityType>
+        <Association Name="FK_processdoc_doctype">
+          <End Type="SystemMapModel.doc_type" Role="doc_type" Multiplicity="1" />
+          <End Type="SystemMapModel.process_docs" Role="process_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doc_type">
+              <PropertyRef Name="doctypeid" />
+            </Principal>
+            <Dependent Role="process_docs">
+              <PropertyRef Name="doctypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_processdoc_process">
+          <End Type="SystemMapModel.process" Role="process" Multiplicity="1" />
+          <End Type="SystemMapModel.process_docs" Role="process_docs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="process">
+              <PropertyRef Name="processid" />
+            </Principal>
+            <Dependent Role="process_docs">
+              <PropertyRef Name="processid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SystemMapModelStoreContainer" CdmEntityContainer="SystemMapEntities">
+          <EntitySetMapping Name="attribute_types">
+            <EntityTypeMapping TypeName="SystemMapModel.attribute_types">
+              <MappingFragment StoreEntitySet="attribute_types">
+                <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="doc_type">
+            <EntityTypeMapping TypeName="SystemMapModel.doc_type">
+              <MappingFragment StoreEntitySet="doc_type">
+                <ScalarProperty Name="iconurl" ColumnName="iconurl" />
+                <ScalarProperty Name="doctypeid" ColumnName="doctypeid" />
+                <ScalarProperty Name="typename" ColumnName="typename" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="edge_docs">
+            <EntityTypeMapping TypeName="SystemMapModel.edge_docs">
+              <MappingFragment StoreEntitySet="edge_docs">
+                <ScalarProperty Name="edgeid" ColumnName="edgeid" />
+                <ScalarProperty Name="edge_docid" ColumnName="edge_docid" />
+                <ScalarProperty Name="doctypeid" ColumnName="doctypeid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="docurl" ColumnName="docurl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="edges">
+            <EntityTypeMapping TypeName="SystemMapModel.edge">
+              <MappingFragment StoreEntitySet="edges">
+                <ScalarProperty Name="edgeid" ColumnName="edgeid" />
+                <ScalarProperty Name="edgetypeid" ColumnName="edgetypeid" />
+                <ScalarProperty Name="from_node" ColumnName="from_node" />
+                <ScalarProperty Name="to_node" ColumnName="to_node" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="edgetypes">
+            <EntityTypeMapping TypeName="SystemMapModel.edgetype">
+              <MappingFragment StoreEntitySet="edgetypes">
+                <ScalarProperty Name="iconurl" ColumnName="iconurl" />
+                <ScalarProperty Name="edgetypeid" ColumnName="edgetypeid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="membership_types">
+            <EntityTypeMapping TypeName="SystemMapModel.membership_types">
+              <MappingFragment StoreEntitySet="membership_types">
+                <ScalarProperty Name="iconurl" ColumnName="iconurl" />
+                <ScalarProperty Name="memtypeid" ColumnName="memtypeid" />
+                <ScalarProperty Name="typename" ColumnName="typename" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="node_attributes">
+            <EntityTypeMapping TypeName="SystemMapModel.node_attributes">
+              <MappingFragment StoreEntitySet="node_attributes">
+                <ScalarProperty Name="nodeid" ColumnName="nodeid" />
+                <ScalarProperty Name="attributeid" ColumnName="attributeid" />
+                <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="node_docs">
+            <EntityTypeMapping TypeName="SystemMapModel.node_docs">
+              <MappingFragment StoreEntitySet="node_docs">
+                <ScalarProperty Name="nodeid" ColumnName="nodeid" />
+                <ScalarProperty Name="node_docid" ColumnName="node_docid" />
+                <ScalarProperty Name="doctypeid" ColumnName="doctypeid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="docurl" ColumnName="docurl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="node_membership">
+            <EntityTypeMapping TypeName="SystemMapModel.node_membership">
+              <MappingFragment StoreEntitySet="node_membership">
+                <ScalarProperty Name="groupnode_id" ColumnName="groupnode_id" />
+                <ScalarProperty Name="membernode_id" ColumnName="membernode_id" />
+                <ScalarProperty Name="memtypeid" ColumnName="memtypeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nodes">
+            <EntityTypeMapping TypeName="SystemMapModel.node">
+              <MappingFragment StoreEntitySet="nodes">
+                <ScalarProperty Name="nodeid" ColumnName="nodeid" />
+                <ScalarProperty Name="typeid" ColumnName="typeid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nodetypes">
+            <EntityTypeMapping TypeName="SystemMapModel.nodetype">
+              <MappingFragment StoreEntitySet="nodetypes">
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="typeid" ColumnName="typeid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="iconurl" ColumnName="iconurl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="processes">
+            <EntityTypeMapping TypeName="SystemMapModel.process">
+              <MappingFragment StoreEntitySet="processes">
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="to_node" ColumnName="to_node" />
+                <ScalarProperty Name="from_node" ColumnName="from_node" />
+                <ScalarProperty Name="edgetypeid" ColumnName="edgetypeid" />
+                <ScalarProperty Name="processid" ColumnName="processid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="process_membership">
+            <EntityTypeMapping TypeName="SystemMapModel.process_membership">
+              <MappingFragment StoreEntitySet="process_membership">
+                <ScalarProperty Name="memtypeid" ColumnName="memtypeid" />
+                <ScalarProperty Name="processedge_id" ColumnName="processedge_id" />
+                <ScalarProperty Name="processid" ColumnName="processid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="process_docs">
+            <EntityTypeMapping TypeName="SystemMapModel.process_docs">
+              <MappingFragment StoreEntitySet="process_docs">
+                <ScalarProperty Name="docurl" ColumnName="docurl" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="doctypeid" ColumnName="doctypeid" />
+                <ScalarProperty Name="processid" ColumnName="processid" />
+                <ScalarProperty Name="process_docid" ColumnName="process_docid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

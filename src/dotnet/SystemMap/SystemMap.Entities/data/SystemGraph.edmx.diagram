@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1f867f07b8de493aa51ee0a3c08fadef" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="SystemMapModel.attribute_types" Width="1.5" PointX="5.375" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.doc_type" Width="1.5" PointX="25.125" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.edge_docs" Width="1.5" PointX="11.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.edge" Width="1.5" PointX="11.375" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.edgetype" Width="1.5" PointX="14.125" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.membership_types" Width="1.5" PointX="21.875" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.node_attributes" Width="1.5" PointX="10.125" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.node_docs" Width="1.5" PointX="13.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.node_membership" Width="1.5" PointX="18.625" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.node" Width="1.5" PointX="11.375" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.nodetype" Width="1.5" PointX="7.625" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="SystemMapModel.FK_nodeattr_attrtype" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_edgedoc_doctype" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_nodedoc_doctype" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_edge_fromnode" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_edge_tonode" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_nodemembership_type" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_nodemembership_group" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_nodemembership_member" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.FK_node_nodetypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SystemMapModel.fk_edgedoc_edge" />
+        <AssociationConnector Association="SystemMapModel.FK_edge_type" />
+        <AssociationConnector Association="SystemMapModel.FK_nodeattr_node" />
+        <AssociationConnector Association="SystemMapModel.fk_nodedoc_nodes" />
+        <EntityTypeShape EntityType="SystemMapModel.process" Width="1.5" PointX="16.375" PointY="6.75" />
+        <AssociationConnector Association="SystemMapModel.FK_process_type" />
+        <AssociationConnector Association="SystemMapModel.FK_process_fromnode" />
+        <AssociationConnector Association="SystemMapModel.FK_process_tonode" />
+        <EntityTypeShape EntityType="SystemMapModel.process_membership" Width="1.5" PointX="19.625" PointY="8.375" />
+        <AssociationConnector Association="SystemMapModel.FK_processmembership_edge" />
+        <AssociationConnector Association="SystemMapModel.FK_processmembership_type" />
+        <AssociationConnector Association="SystemMapModel.FK_processmembership_process" />
+        <EntityTypeShape EntityType="SystemMapModel.process_docs" Width="1.5" PointX="23" PointY="6.625" />
+        <AssociationConnector Association="SystemMapModel.FK_processdoc_doctype" />
+        <AssociationConnector Association="SystemMapModel.fk_processdoc_process" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
