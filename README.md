@@ -21,4 +21,14 @@ Processes (and edge "membership") is another concept overlaid on the normal dire
 
 Continuing with the inventory system, address validation from an external source or vendor would be carried out as part of the normal processes.  However, the ordering system and the shipping system both rely on valid addresses to carry out their own functions.  If the business, as a whole, decides to use a different vendor or process to execute this function, then edge "membership" would allow them to see that doing so affects multiple processes.
 
+### Documentation ###
 
+Even the best map of an infrastructure is of little use unless there is available documentation.  Even though the overview itself might be obvious and apparent to a view or user (though usually not), the devil, as they say, is in the details.  Address validation, as explained above, may be a simple and important concept to a business, but is it live?  Is it performed in batches?  Is there timing involved?  When is the bill due for this service?  Where do the configuration values need to go?
+
+Typically in large organizations, some of these answers are known to the experts who handle that particular subsystem (possibly even all the answers).  However, if someone is looking at redesigning the entire system, it's important for them to be able to get to the right information quickly.
+
+If the organization is well-managed and well-disciplined, they probably even have a central Document Management System (DMS) that holds this data.  But unless our intrepid redesign team even knows to ask for "address validation" within the DMS, they may miss this very important process.
+
+(And that's not even counting on terminology issues.  In some systems, it might be filed under "customer validation", or "location information", or "shipment preprocessing".  Unless, by design or accident, they happen to talk to the individuals or department who _know_ of this operation's existance and relevance, large-scale mistakes and problems can occur.) 
+
+For this reason, all nodes, edges, and processes can have multiple comments, notes, and document URL's attached to provide additional information.
