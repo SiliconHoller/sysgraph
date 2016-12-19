@@ -13,6 +13,13 @@ namespace SystemMap.Entities.service
     /// </summary>
     public class NodeService
     {
+        #region Getters
+
+        /// <summary>
+        /// Get Node data
+        /// </summary>
+        /// <param name="nodeid">Node of interest</param>
+        /// <returns>Node information, if exists; otherwise, null</returns>
         public Node GetNode(int nodeid)
         {
             Node retval = null;
@@ -36,6 +43,11 @@ namespace SystemMap.Entities.service
             return retval;
         }
 
+        /// <summary>
+        /// Return a colleciton of the nodes of a particular type
+        /// </summary>
+        /// <param name="typeid">Type of interest</param>
+        /// <returns>Collection of nodes of the given type; otherwise, an empty collection</returns>
         public IEnumerable<Node> GetNodesOfType(int typeid)
         {
             List<Node> nlist = new List<Node>();
@@ -56,6 +68,11 @@ namespace SystemMap.Entities.service
             return nlist;
         }
 
+        /// <summary>
+        /// Return a collection of the nodes which are classified as containers of this node
+        /// </summary>
+        /// <param name="nodeid">Node of interest</param>
+        /// <returns>Collection of container nodes, if they exist; otherwise an empty collection </returns>
         public IEnumerable<Node> GetContainers(int nodeid)
         {
             List<Node> clist = new List<Node>();
@@ -63,10 +80,14 @@ namespace SystemMap.Entities.service
             {
                 clist = db.node_membership
                             .Where(nm => nm.membernode_id == nodeid)
-                            .Join(db.nodes, a => a.groupnode_id, b => b.nodeid, (a, b) => new { memtype = a.memtypeid, container = b })
+                            .Join(db.nodes, a => a.groupnode_id, b => b.nodeid, (a, b) => new { memtypeid = a.memtypeid, container = b })
+                            .Join(db.membership_types, a => a.memtypeid, b => b.memtypeid, (a, b) => new { container = a.container, mtype = b })
                             .Select(n => new Node
                             {
-
+                                id = n.container.nodeid,
+                                name = n.container.name,
+                                description = n.container.descr,
+                                memType = n.mtype != null ? new MembershipType { typeId = n.mtype.memtypeid, name = n.mtype.typename, iconUrl = n.mtype.iconurl} : null,
                             })
                             .ToList<Node>();
             }
@@ -136,5 +157,50 @@ namespace SystemMap.Entities.service
 
         }
 
+        #endregion
+
+        #region Write/Delete ops
+
+        public int AddNode(Node nnode, bool typeadd = false)
+        {
+            int retval = -1;
+            //Check for typeval--if not exists (and typeadd == false) throw exception;
+            if (nnode.type == null) throw new Exception("Node type data required");
+            TypeService typesvc = new TypeService();
+            NodeType ntype = typesvc.GetNodeType(nnode.type.typeId, nnode.type.name, typeadd);
+
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                node addnode = new node { name = nnode.name, descr = nnode.description, typeid = ntype.typeId };
+                db.nodes.Add(addnode);
+                db.SaveChanges();
+                retval = addnode.nodeid;
+            }
+            return retval;
+        }
+
+        public void UpdateNode(Node unode)
+        {
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                node update = db.nodes.Where(n => n.nodeid == unode.id).SingleOrDefault();
+                update.name = unode.name;
+                update.descr = unode.description;
+                update.typeid = unode.type.typeId;
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteNode(int nodeid)
+        {
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                node delnode = db.nodes.Where(n => n.nodeid == nodeid).Single();
+                db.nodes.Remove(delnode);
+                db.SaveChanges();
+            }
+        }
+
+        #endregion
     }
 }
