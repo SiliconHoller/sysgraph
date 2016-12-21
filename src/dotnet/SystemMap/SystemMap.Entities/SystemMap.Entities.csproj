@@ -119,6 +119,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="configs\dbcredentials.config" />
+    <None Include="configs\dbcredentials.config.default" />
     <EntityDeploy Include="data\SystemGraph.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SystemGraph.Designer.cs</LastGenOutput>
