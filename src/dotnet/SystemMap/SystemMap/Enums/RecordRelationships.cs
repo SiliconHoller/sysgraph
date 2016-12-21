@@ -35,7 +35,7 @@ namespace SystemMap.Enums
     [Flags]
     public enum RecordOperations
     {
-        [Display(Name = "Performs Lookup")]
+        [Display(Name = "Provides Lookup")]
         Lookup = 0,
 
         [Display(Name = "Reads Data")]

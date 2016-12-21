@@ -87,14 +87,15 @@ namespace SystemMap.Entities.service
         /// </summary>
         /// <param name="conn">Connector model containing edge information</param>
         /// <returns>identity value of the new edge record; otherwise, -1.</returns>
-        public int AddEdge(Connector conn)
+        public int AddEdge(Connector conn, bool typeadd = false)
         {
             int retval = -1;
-            //if no type, return invalid id
-            if (conn.type == null) return retval;
+            if (conn.type == null) throw new Exception("Edge type data required");
+            TypeService tsvc = new TypeService();
+            EdgeType etype = tsvc.GetEdgeType(conn.type.typeId, conn.type.name, typeadd);
             using (SystemMapEntities db = new SystemMapEntities())
             {
-                edge nedge = new edge { name = conn.name, edgetypeid = conn.type.typeId, descr = conn.description, from_node = conn.fromNodeId, to_node = conn.toNodeId };
+                edge nedge = new edge { name = conn.name, edgetypeid = etype.typeId, descr = conn.description, from_node = conn.fromNodeId, to_node = conn.toNodeId };
                 db.edges.Add(nedge);
                 db.SaveChanges();
                 retval = nedge.edgeid;

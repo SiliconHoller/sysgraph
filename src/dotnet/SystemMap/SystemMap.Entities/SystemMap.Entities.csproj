@@ -116,11 +116,12 @@
     <Compile Include="service\NodeService.cs" />
     <Compile Include="service\ProcessService.cs" />
     <Compile Include="service\TypeService.cs" />
+    <Compile Include="util\DbSeed.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="configs\dbcredentials.config" />
-    <None Include="configs\dbcredentials.config.default" />
+    <None Include="config\dbcredentials.config" />
+    <None Include="config\dbcredentials.config.default" />
     <EntityDeploy Include="data\SystemGraph.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SystemGraph.Designer.cs</LastGenOutput>
