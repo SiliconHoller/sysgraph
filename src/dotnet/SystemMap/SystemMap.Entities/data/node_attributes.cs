@@ -20,7 +20,7 @@ namespace SystemMap.Entities.data
         public string descr { get; set; }
         public int nodeid { get; set; }
     
-        public virtual attribute_types attribute_types { get; set; }
         public virtual node node { get; set; }
+        public virtual attribute_types attribute_types { get; set; }
     }
 }

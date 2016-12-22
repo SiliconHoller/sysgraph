@@ -12,6 +12,7 @@
           <Property Name="attrtypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="iconurl" Type="nvarchar" MaxLength="1024" />
         </EntityType>
         <EntityType Name="doc_type">
           <Key>
@@ -497,15 +498,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SystemMapModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="attribute_types">
-          <Key>
-            <PropertyRef Name="attrtypeid" />
-          </Key>
-          <Property Name="attrtypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="node_attributes" Relationship="Self.FK_nodeattr_attrtype" FromRole="attribute_types" ToRole="node_attributes" />
-        </EntityType>
         <EntityType Name="doc_type">
           <Key>
             <PropertyRef Name="doctypeid" />
@@ -577,9 +569,9 @@
           <Property Name="attrtypeid" Type="Int32" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="attribute_types" Relationship="Self.FK_nodeattr_attrtype" FromRole="node_attributes" ToRole="attribute_types" />
           <Property Name="nodeid" Type="Int32" Nullable="false" />
           <NavigationProperty Name="node" Relationship="SystemMapModel.FK_nodeattr_node" FromRole="node_attributes" ToRole="node" />
+          <NavigationProperty Name="attribute_types" Relationship="SystemMapModel.FK_nodeattr_attrtype" FromRole="node_attributes" ToRole="attribute_types" />
         </EntityType>
         <EntityType Name="node_docs">
           <Key>
@@ -634,18 +626,6 @@
           <NavigationProperty Name="nodes" Relationship="Self.FK_node_nodetypes" FromRole="nodetypes" ToRole="nodes" />
           <Property Name="descr" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK_nodeattr_attrtype">
-          <End Role="attribute_types" Type="Self.attribute_types" Multiplicity="1" />
-          <End Role="node_attributes" Type="Self.node_attributes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="attribute_types">
-              <PropertyRef Name="attrtypeid" />
-            </Principal>
-            <Dependent Role="node_attributes">
-              <PropertyRef Name="attrtypeid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_edgedoc_doctype">
           <End Role="doc_type" Type="Self.doc_type" Multiplicity="1" />
           <End Role="edge_docs" Type="Self.edge_docs" Multiplicity="*" />
@@ -743,7 +723,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SystemMapEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="attribute_types" EntityType="Self.attribute_types" />
           <EntitySet Name="doc_type" EntityType="Self.doc_type" />
           <EntitySet Name="edge_docs" EntityType="Self.edge_docs" />
           <EntitySet Name="edges" EntityType="Self.edge" />
@@ -754,10 +733,6 @@
           <EntitySet Name="node_membership" EntityType="Self.node_membership" />
           <EntitySet Name="nodes" EntityType="Self.node" />
           <EntitySet Name="nodetypes" EntityType="Self.nodetype" />
-          <AssociationSet Name="FK_nodeattr_attrtype" Association="Self.FK_nodeattr_attrtype">
-            <End Role="attribute_types" EntitySet="attribute_types" />
-            <End Role="node_attributes" EntitySet="node_attributes" />
-          </AssociationSet>
           <AssociationSet Name="FK_edgedoc_doctype" Association="Self.FK_edgedoc_doctype">
             <End Role="doc_type" EntitySet="doc_type" />
             <End Role="edge_docs" EntitySet="edge_docs" />
@@ -840,6 +815,11 @@
           <AssociationSet Name="fk_processdoc_process" Association="SystemMapModel.fk_processdoc_process">
             <End Role="process" EntitySet="processes" />
             <End Role="process_docs" EntitySet="process_docs" />
+          </AssociationSet>
+          <EntitySet Name="attribute_types" EntityType="SystemMapModel.attribute_types" />
+          <AssociationSet Name="FK_nodeattr_attrtype" Association="SystemMapModel.FK_nodeattr_attrtype">
+            <End Role="attribute_types" EntitySet="attribute_types" />
+            <End Role="node_attributes" EntitySet="node_attributes" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="fk_edgedoc_edge">
@@ -1027,21 +1007,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="attribute_types">
+          <Key>
+            <PropertyRef Name="attrtypeid" />
+          </Key>
+          <Property Name="attrtypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <Property Name="iconurl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="node_attributes" Relationship="SystemMapModel.FK_nodeattr_attrtype" FromRole="attribute_types" ToRole="node_attributes" />
+        </EntityType>
+        <Association Name="FK_nodeattr_attrtype">
+          <End Type="SystemMapModel.attribute_types" Role="attribute_types" Multiplicity="1" />
+          <End Type="SystemMapModel.node_attributes" Role="node_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attribute_types">
+              <PropertyRef Name="attrtypeid" />
+            </Principal>
+            <Dependent Role="node_attributes">
+              <PropertyRef Name="attrtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SystemMapModelStoreContainer" CdmEntityContainer="SystemMapEntities">
-          <EntitySetMapping Name="attribute_types">
-            <EntityTypeMapping TypeName="SystemMapModel.attribute_types">
-              <MappingFragment StoreEntitySet="attribute_types">
-                <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="descr" ColumnName="descr" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="doc_type">
             <EntityTypeMapping TypeName="SystemMapModel.doc_type">
               <MappingFragment StoreEntitySet="doc_type">
@@ -1178,6 +1171,16 @@
                 <ScalarProperty Name="doctypeid" ColumnName="doctypeid" />
                 <ScalarProperty Name="processid" ColumnName="processid" />
                 <ScalarProperty Name="process_docid" ColumnName="process_docid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="attribute_types">
+            <EntityTypeMapping TypeName="SystemMapModel.attribute_types">
+              <MappingFragment StoreEntitySet="attribute_types">
+                <ScalarProperty Name="iconurl" ColumnName="iconurl" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

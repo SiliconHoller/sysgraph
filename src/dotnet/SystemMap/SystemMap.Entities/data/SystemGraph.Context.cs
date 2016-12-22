@@ -25,7 +25,6 @@ namespace SystemMap.Entities.data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<attribute_types> attribute_types { get; set; }
         public virtual DbSet<doc_type> doc_type { get; set; }
         public virtual DbSet<edge_docs> edge_docs { get; set; }
         public virtual DbSet<edge> edges { get; set; }
@@ -39,5 +38,6 @@ namespace SystemMap.Entities.data
         public virtual DbSet<process> processes { get; set; }
         public virtual DbSet<process_membership> process_membership { get; set; }
         public virtual DbSet<process_docs> process_docs { get; set; }
+        public virtual DbSet<attribute_types> attribute_types { get; set; }
     }
 }

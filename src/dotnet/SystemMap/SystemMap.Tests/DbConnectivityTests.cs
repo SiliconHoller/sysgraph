@@ -18,7 +18,7 @@ namespace SystemMap.Tests
         }
 
         [TestMethod]
-        [Ignore]
+        //[Ignore]
         public void TestTypeSeed()
         {
             DbSeed seeder = new DbSeed();

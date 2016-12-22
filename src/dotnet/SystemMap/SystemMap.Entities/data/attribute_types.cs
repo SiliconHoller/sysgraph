@@ -23,6 +23,7 @@ namespace SystemMap.Entities.data
         public int attrtypeid { get; set; }
         public string name { get; set; }
         public string descr { get; set; }
+        public string iconurl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<node_attributes> node_attributes { get; set; }

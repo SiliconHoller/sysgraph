@@ -167,7 +167,7 @@ namespace SystemMap.Entities.service
             //Check for typeval--if not exists (and typeadd == false) throw exception;
             if (nnode.type == null) throw new Exception("Node type data required");
             TypeService typesvc = new TypeService();
-            NodeType ntype = typesvc.GetNodeType(nnode.type.typeId, nnode.type.name, typeadd);
+            NodeType ntype = typesvc.GetNodeType(nnode.type.name, typeadd);
 
             using (SystemMapEntities db = new SystemMapEntities())
             {
@@ -201,6 +201,85 @@ namespace SystemMap.Entities.service
             }
         }
 
+        #endregion
+
+        #region Attributes
+
+        public int AddAttribute(NodeAttribute natt)
+        {
+            int retval = -1;
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                node_attributes ndata = new node_attributes
+                                            {
+                                                name = natt.name,
+                                                descr = natt.description,
+                                                nodeid = natt.nodeId,
+                                                attrtypeid = natt.type.typeId
+                                            };
+                db.node_attributes.Add(ndata);
+                db.SaveChanges();
+                retval = ndata.attributeid;
+            }
+            return retval;
+        }
+
+        public IEnumerable<NodeAttribute> GetAttributes(int nodeid)
+        {
+            List<NodeAttribute> attlist = new List<NodeAttribute>();
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                attlist = db.node_attributes
+                            .Where(na => na.nodeid == nodeid)
+                            .OrderBy(na => na.name)
+                            .Select(na => new NodeAttribute
+                            {
+                                id = na.attributeid,
+                                name = na.name,
+                                description = na.descr,
+                                type = new AttributeType
+                                {
+                                    typeId = na.attribute_types.attrtypeid,
+                                    name = na.attribute_types.name,
+                                    description = na.attribute_types.descr,
+                                    iconUrl = na.attribute_types.iconurl
+                                }
+                            })
+                            .ToList<NodeAttribute>();
+            }
+            return attlist;
+        }
+
+        public void UpdateAttribute(NodeAttribute natt)
+        {
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                node_attributes urecord = db.node_attributes
+                                            .Where(na => na.attributeid == natt.id)
+                                            .SingleOrDefault();
+                if (urecord != null)
+                {
+                    urecord.name = natt.name;
+                    urecord.descr = natt.description;
+                    urecord.attrtypeid = natt.type.typeId;
+                    urecord.nodeid = natt.nodeId;
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public void DeleteAttribute(int nattid)
+        {
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                node_attributes del = db.node_attributes.Where(na => na.attributeid == nattid).SingleOrDefault();
+                if (del != null)
+                {
+                    db.node_attributes.Remove(del);
+                    db.SaveChanges();
+                }
+            }
+        }
         #endregion
     }
 }

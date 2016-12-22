@@ -92,7 +92,7 @@ namespace SystemMap.Entities.service
             int retval = -1;
             if (conn.type == null) throw new Exception("Edge type data required");
             TypeService tsvc = new TypeService();
-            EdgeType etype = tsvc.GetEdgeType(conn.type.typeId, conn.type.name, typeadd);
+            EdgeType etype = tsvc.GetEdgeType(conn.type.name, typeadd);
             using (SystemMapEntities db = new SystemMapEntities())
             {
                 edge nedge = new edge { name = conn.name, edgetypeid = etype.typeId, descr = conn.description, from_node = conn.fromNodeId, to_node = conn.toNodeId };

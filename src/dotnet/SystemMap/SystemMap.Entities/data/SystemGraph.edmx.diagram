@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1f867f07b8de493aa51ee0a3c08fadef" Name="Diagram1" ZoomLevel="67">
-        <EntityTypeShape EntityType="SystemMapModel.attribute_types" Width="1.5" PointX="5.375" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.doc_type" Width="1.5" PointX="25.125" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.edge_docs" Width="1.5" PointX="11.25" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.edge" Width="1.5" PointX="11.375" PointY="9" IsExpanded="true" />
@@ -16,7 +15,6 @@
         <EntityTypeShape EntityType="SystemMapModel.node_membership" Width="1.5" PointX="18.625" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.node" Width="1.5" PointX="11.375" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.nodetype" Width="1.5" PointX="7.625" PointY="2.75" IsExpanded="true" />
-        <AssociationConnector Association="SystemMapModel.FK_nodeattr_attrtype" ManuallyRouted="false" />
         <AssociationConnector Association="SystemMapModel.FK_edgedoc_doctype" ManuallyRouted="false" />
         <AssociationConnector Association="SystemMapModel.FK_nodedoc_doctype" ManuallyRouted="false" />
         <AssociationConnector Association="SystemMapModel.FK_edge_fromnode" ManuallyRouted="false" />
@@ -40,6 +38,8 @@
         <EntityTypeShape EntityType="SystemMapModel.process_docs" Width="1.5" PointX="23" PointY="6.625" />
         <AssociationConnector Association="SystemMapModel.FK_processdoc_doctype" />
         <AssociationConnector Association="SystemMapModel.fk_processdoc_process" />
+        <EntityTypeShape EntityType="SystemMapModel.attribute_types" Width="1.5" PointX="5.25" PointY="1.125" />
+        <AssociationConnector Association="SystemMapModel.FK_nodeattr_attrtype" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

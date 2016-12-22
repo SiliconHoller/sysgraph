@@ -46,4 +46,22 @@ namespace SystemMap.Enums
         [Display(Name="Automated Email")]
         Email
     }
+
+    public enum CrmDataTypes
+    {
+        [Display(Name="Picklist")]
+        Picklist,
+        [Display(Name="Address")]
+        Address,
+        [Display(Name="Checkbox")]
+        Checkbox,
+        [Display(Name="Short Text")]
+        ShortText,
+        [Display(Name="Long Text")]
+        LongText,
+        [Display(Name="Related Record Id")]
+        RelatedRecordId,
+        [Display(Name="Number")]
+        Number
+    }
 }
