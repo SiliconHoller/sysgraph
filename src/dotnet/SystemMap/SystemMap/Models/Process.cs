@@ -33,7 +33,7 @@ namespace SystemMap.Models
         [Display(Name="Operators")]
         public IEnumerable<Node> actors { get; set; }
         [Display(Name="Operations")]
-        public IEnumerable<Connector> actions { get; set; }
+        public IEnumerable<Edge> actions { get; set; }
 
     }
 }

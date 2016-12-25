@@ -23,6 +23,17 @@
           <Property Name="descr" Type="nvarchar" MaxLength="2048" />
           <Property Name="iconurl" Type="nvarchar" MaxLength="1024" />
         </EntityType>
+        <EntityType Name="edge_attributes">
+          <Key>
+            <PropertyRef Name="attributeid" />
+          </Key>
+          <Property Name="attributeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="edgeid" Type="int" Nullable="false" />
+          <Property Name="attrtypeid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="edgeval" Type="decimal" Precision="10" Scale="5" Nullable="false" />
+          <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
         <EntityType Name="edge_docs">
           <Key>
             <PropertyRef Name="edge_docid" />
@@ -72,6 +83,7 @@
           <Property Name="attrtypeid" Type="int" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="descr" Type="nvarchar" MaxLength="2048" />
+          <Property Name="nodeval" Type="decimal" Precision="10" Scale="5" Nullable="false" />
         </EntityType>
         <EntityType Name="node_docs">
           <Key>
@@ -175,6 +187,30 @@
             </Principal>
             <Dependent Role="edges">
               <PropertyRef Name="edgetypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edgeattr_attrtype">
+          <End Role="attribute_types" Type="Self.attribute_types" Multiplicity="1" />
+          <End Role="edge_attributes" Type="Self.edge_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attribute_types">
+              <PropertyRef Name="attrtypeid" />
+            </Principal>
+            <Dependent Role="edge_attributes">
+              <PropertyRef Name="attrtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edgeattr_node">
+          <End Role="edges" Type="Self.edges" Multiplicity="1" />
+          <End Role="edge_attributes" Type="Self.edge_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edges">
+              <PropertyRef Name="edgeid" />
+            </Principal>
+            <Dependent Role="edge_attributes">
+              <PropertyRef Name="edgeid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -397,6 +433,7 @@
         <EntityContainer Name="SystemMapModelStoreContainer">
           <EntitySet Name="attribute_types" EntityType="Self.attribute_types" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="doc_type" EntityType="Self.doc_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="edge_attributes" EntityType="Self.edge_attributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="edge_docs" EntityType="Self.edge_docs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="edges" EntityType="Self.edges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="edgetypes" EntityType="Self.edgetypes" Schema="dbo" store:Type="Tables" />
@@ -420,6 +457,14 @@
           <AssociationSet Name="FK_edge_type" Association="Self.FK_edge_type">
             <End Role="edgetypes" EntitySet="edgetypes" />
             <End Role="edges" EntitySet="edges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edgeattr_attrtype" Association="Self.FK_edgeattr_attrtype">
+            <End Role="attribute_types" EntitySet="attribute_types" />
+            <End Role="edge_attributes" EntitySet="edge_attributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edgeattr_node" Association="Self.FK_edgeattr_node">
+            <End Role="edges" EntitySet="edges" />
+            <End Role="edge_attributes" EntitySet="edge_attributes" />
           </AssociationSet>
           <AssociationSet Name="FK_edgedoc_doctype" Association="Self.FK_edgedoc_doctype">
             <End Role="doc_type" EntitySet="doc_type" />
@@ -538,6 +583,7 @@
           <NavigationProperty Name="edge_docs" Relationship="SystemMapModel.fk_edgedoc_edge" FromRole="edge" ToRole="edge_docs" />
           <NavigationProperty Name="edgetype" Relationship="SystemMapModel.FK_edge_type" FromRole="edge" ToRole="edgetype" />
           <NavigationProperty Name="process_membership" Relationship="SystemMapModel.FK_processmembership_edge" FromRole="edge" ToRole="process_membership" />
+          <NavigationProperty Name="edge_attributes" Relationship="SystemMapModel.FK_edgeattr_node" FromRole="edge" ToRole="edge_attributes" />
         </EntityType>
         <EntityType Name="edgetype">
           <Key>
@@ -560,18 +606,6 @@
           <NavigationProperty Name="node_membership" Relationship="Self.FK_nodemembership_type" FromRole="membership_types" ToRole="node_membership" />
           <NavigationProperty Name="process_membership" Relationship="SystemMapModel.FK_processmembership_type" FromRole="membership_types" ToRole="process_membership" />
           <Property Name="iconurl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="node_attributes">
-          <Key>
-            <PropertyRef Name="attributeid" />
-          </Key>
-          <Property Name="attributeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="attrtypeid" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
-          <Property Name="nodeid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="node" Relationship="SystemMapModel.FK_nodeattr_node" FromRole="node_attributes" ToRole="node" />
-          <NavigationProperty Name="attribute_types" Relationship="SystemMapModel.FK_nodeattr_attrtype" FromRole="node_attributes" ToRole="attribute_types" />
         </EntityType>
         <EntityType Name="node_docs">
           <Key>
@@ -611,10 +645,10 @@
           <NavigationProperty Name="node_membership" Relationship="Self.FK_nodemembership_group" FromRole="nodes" ToRole="node_membership" />
           <NavigationProperty Name="node_membership1" Relationship="Self.FK_nodemembership_member" FromRole="nodes" ToRole="node_membership" />
           <NavigationProperty Name="nodetype" Relationship="Self.FK_node_nodetypes" FromRole="nodes" ToRole="nodetypes" />
-          <NavigationProperty Name="node_attributes" Relationship="SystemMapModel.FK_nodeattr_node" FromRole="node" ToRole="node_attributes" />
           <NavigationProperty Name="node_docs" Relationship="SystemMapModel.fk_nodedoc_nodes" FromRole="node" ToRole="node_docs" />
           <NavigationProperty Name="processes" Relationship="SystemMapModel.FK_process_fromnode" FromRole="node" ToRole="process" />
           <NavigationProperty Name="processes1" Relationship="SystemMapModel.FK_process_tonode" FromRole="node" ToRole="process" />
+          <NavigationProperty Name="node_attributes" Relationship="SystemMapModel.FK_nodeattr_node" FromRole="node" ToRole="node_attributes" />
         </EntityType>
         <EntityType Name="nodetype">
           <Key>
@@ -728,7 +762,6 @@
           <EntitySet Name="edges" EntityType="Self.edge" />
           <EntitySet Name="edgetypes" EntityType="Self.edgetype" />
           <EntitySet Name="membership_types" EntityType="Self.membership_types" />
-          <EntitySet Name="node_attributes" EntityType="Self.node_attributes" />
           <EntitySet Name="node_docs" EntityType="Self.node_docs" />
           <EntitySet Name="node_membership" EntityType="Self.node_membership" />
           <EntitySet Name="nodes" EntityType="Self.node" />
@@ -773,10 +806,6 @@
             <End Role="edgetype" EntitySet="edgetypes" />
             <End Role="edge" EntitySet="edges" />
           </AssociationSet>
-          <AssociationSet Name="FK_nodeattr_node" Association="SystemMapModel.FK_nodeattr_node">
-            <End Role="node" EntitySet="nodes" />
-            <End Role="node_attributes" EntitySet="node_attributes" />
-          </AssociationSet>
           <AssociationSet Name="fk_nodedoc_nodes" Association="SystemMapModel.fk_nodedoc_nodes">
             <End Role="node" EntitySet="nodes" />
             <End Role="node_docs" EntitySet="node_docs" />
@@ -817,8 +846,22 @@
             <End Role="process_docs" EntitySet="process_docs" />
           </AssociationSet>
           <EntitySet Name="attribute_types" EntityType="SystemMapModel.attribute_types" />
+          <EntitySet Name="edge_attributes" EntityType="SystemMapModel.edge_attributes" />
+          <EntitySet Name="node_attributes" EntityType="SystemMapModel.node_attributes" />
+          <AssociationSet Name="FK_edgeattr_attrtype" Association="SystemMapModel.FK_edgeattr_attrtype">
+            <End Role="attribute_types" EntitySet="attribute_types" />
+            <End Role="edge_attributes" EntitySet="edge_attributes" />
+          </AssociationSet>
           <AssociationSet Name="FK_nodeattr_attrtype" Association="SystemMapModel.FK_nodeattr_attrtype">
             <End Role="attribute_types" EntitySet="attribute_types" />
+            <End Role="node_attributes" EntitySet="node_attributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_edgeattr_node" Association="SystemMapModel.FK_edgeattr_node">
+            <End Role="edge" EntitySet="edges" />
+            <End Role="edge_attributes" EntitySet="edge_attributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_nodeattr_node" Association="SystemMapModel.FK_nodeattr_node">
+            <End Role="node" EntitySet="nodes" />
             <End Role="node_attributes" EntitySet="node_attributes" />
           </AssociationSet>
         </EntityContainer>
@@ -843,18 +886,6 @@
             </Principal>
             <Dependent Role="edge">
               <PropertyRef Name="edgetypeid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_nodeattr_node">
-          <End Type="SystemMapModel.node" Role="node" Multiplicity="1" />
-          <End Type="SystemMapModel.node_attributes" Role="node_attributes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="node">
-              <PropertyRef Name="nodeid" />
-            </Principal>
-            <Dependent Role="node_attributes">
-              <PropertyRef Name="nodeid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1015,8 +1046,47 @@
           <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
           <Property Name="iconurl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="edge_attributes" Relationship="SystemMapModel.FK_edgeattr_attrtype" FromRole="attribute_types" ToRole="edge_attributes" />
           <NavigationProperty Name="node_attributes" Relationship="SystemMapModel.FK_nodeattr_attrtype" FromRole="attribute_types" ToRole="node_attributes" />
         </EntityType>
+        <EntityType Name="edge_attributes">
+          <Key>
+            <PropertyRef Name="attributeid" />
+          </Key>
+          <Property Name="attributeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="edgeid" Type="Int32" Nullable="false" />
+          <Property Name="attrtypeid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="edgeval" Type="Decimal" Nullable="false" Precision="10" Scale="5" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="attribute_types" Relationship="SystemMapModel.FK_edgeattr_attrtype" FromRole="edge_attributes" ToRole="attribute_types" />
+          <NavigationProperty Name="edge" Relationship="SystemMapModel.FK_edgeattr_node" FromRole="edge_attributes" ToRole="edge" />
+        </EntityType>
+        <EntityType Name="node_attributes">
+          <Key>
+            <PropertyRef Name="attributeid" />
+          </Key>
+          <Property Name="attributeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nodeid" Type="Int32" Nullable="false" />
+          <Property Name="attrtypeid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="descr" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <Property Name="nodeval" Type="Decimal" Nullable="false" Precision="10" Scale="5" />
+          <NavigationProperty Name="attribute_types" Relationship="SystemMapModel.FK_nodeattr_attrtype" FromRole="node_attributes" ToRole="attribute_types" />
+          <NavigationProperty Name="node" Relationship="SystemMapModel.FK_nodeattr_node" FromRole="node_attributes" ToRole="node" />
+        </EntityType>
+        <Association Name="FK_edgeattr_attrtype">
+          <End Type="SystemMapModel.attribute_types" Role="attribute_types" Multiplicity="1" />
+          <End Type="SystemMapModel.edge_attributes" Role="edge_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attribute_types">
+              <PropertyRef Name="attrtypeid" />
+            </Principal>
+            <Dependent Role="edge_attributes">
+              <PropertyRef Name="attrtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_nodeattr_attrtype">
           <End Type="SystemMapModel.attribute_types" Role="attribute_types" Multiplicity="1" />
           <End Type="SystemMapModel.node_attributes" Role="node_attributes" Multiplicity="*" />
@@ -1026,6 +1096,30 @@
             </Principal>
             <Dependent Role="node_attributes">
               <PropertyRef Name="attrtypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_edgeattr_node">
+          <End Type="SystemMapModel.edge" Role="edge" Multiplicity="1" />
+          <End Type="SystemMapModel.edge_attributes" Role="edge_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="edge">
+              <PropertyRef Name="edgeid" />
+            </Principal>
+            <Dependent Role="edge_attributes">
+              <PropertyRef Name="edgeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_nodeattr_node">
+          <End Type="SystemMapModel.node" Role="node" Multiplicity="1" />
+          <End Type="SystemMapModel.node_attributes" Role="node_attributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="node">
+              <PropertyRef Name="nodeid" />
+            </Principal>
+            <Dependent Role="node_attributes">
+              <PropertyRef Name="nodeid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1085,17 +1179,6 @@
                 <ScalarProperty Name="iconurl" ColumnName="iconurl" />
                 <ScalarProperty Name="memtypeid" ColumnName="memtypeid" />
                 <ScalarProperty Name="typename" ColumnName="typename" />
-                <ScalarProperty Name="descr" ColumnName="descr" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="node_attributes">
-            <EntityTypeMapping TypeName="SystemMapModel.node_attributes">
-              <MappingFragment StoreEntitySet="node_attributes">
-                <ScalarProperty Name="nodeid" ColumnName="nodeid" />
-                <ScalarProperty Name="attributeid" ColumnName="attributeid" />
-                <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="descr" ColumnName="descr" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1181,6 +1264,30 @@
                 <ScalarProperty Name="descr" ColumnName="descr" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="edge_attributes">
+            <EntityTypeMapping TypeName="SystemMapModel.edge_attributes">
+              <MappingFragment StoreEntitySet="edge_attributes">
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="edgeval" ColumnName="edgeval" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
+                <ScalarProperty Name="edgeid" ColumnName="edgeid" />
+                <ScalarProperty Name="attributeid" ColumnName="attributeid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="node_attributes">
+            <EntityTypeMapping TypeName="SystemMapModel.node_attributes">
+              <MappingFragment StoreEntitySet="node_attributes">
+                <ScalarProperty Name="nodeval" ColumnName="nodeval" />
+                <ScalarProperty Name="descr" ColumnName="descr" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="attrtypeid" ColumnName="attrtypeid" />
+                <ScalarProperty Name="nodeid" ColumnName="nodeid" />
+                <ScalarProperty Name="attributeid" ColumnName="attributeid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

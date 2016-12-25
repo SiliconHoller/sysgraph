@@ -21,14 +21,14 @@ namespace SystemMap.Entities.service
         /// </summary>
         /// <param name="nodeid">Node of interest</param>
         /// <returns>Collection of edges originating from the given node, if they exist; otherwise, an empty list.</returns>
-        public IEnumerable<Connector> GetEdgesFrom(int nodeid)
+        public IEnumerable<Edge> GetEdgesFrom(int nodeid)
         {
-            List<Connector> elist = new List<Connector>();
+            List<Edge> elist = new List<Edge>();
             using (SystemMapEntities db = new SystemMapEntities())
             {
                 elist = db.edges
                             .Where(e => e.from_node == nodeid)
-                            .Select(e => new Connector
+                            .Select(e => new Edge
                             {
                                 id = e.edgeid,
                                 name = e.name,
@@ -42,7 +42,7 @@ namespace SystemMap.Entities.service
                                     iconUrl = e.edgetype.iconurl
                                 }
                             })
-                            .ToList<Connector>();
+                            .ToList<Edge>();
             }
             return elist;
         }
@@ -52,14 +52,14 @@ namespace SystemMap.Entities.service
         /// </summary>
         /// <param name="nodeid">node of interest</param>
         /// <returns>Collection of edges terminating at the given node, if they exist; otherwise, an empty list.</returns>
-        public IEnumerable<Connector> GetEdgesTo(int nodeid)
+        public IEnumerable<Edge> GetEdgesTo(int nodeid)
         {
-            List<Connector> elist = new List<Connector>();
+            List<Edge> elist = new List<Edge>();
             using (SystemMapEntities db = new SystemMapEntities())
             {
                 elist = db.edges
                             .Where(e => e.to_node == nodeid)
-                            .Select(e => new Connector
+                            .Select(e => new Edge
                             {
                                 id = e.edgeid,
                                 name = e.name,
@@ -73,7 +73,7 @@ namespace SystemMap.Entities.service
                                     iconUrl = e.edgetype.iconurl
                                 }
                             })
-                            .ToList<Connector>();
+                            .ToList<Edge>();
             }
             return elist;
         }
@@ -87,7 +87,7 @@ namespace SystemMap.Entities.service
         /// </summary>
         /// <param name="conn">Connector model containing edge information</param>
         /// <returns>identity value of the new edge record; otherwise, -1.</returns>
-        public int AddEdge(Connector conn, bool typeadd = false)
+        public int AddEdge(Edge conn, bool typeadd = false)
         {
             int retval = -1;
             if (conn.type == null) throw new Exception("Edge type data required");
@@ -107,7 +107,7 @@ namespace SystemMap.Entities.service
         /// Update edge information
         /// </summary>
         /// <param name="conn">Connector model containing the updated information</param>
-        public void UpdateEdge(Connector conn)
+        public void UpdateEdge(Edge conn)
         {
             using (SystemMapEntities db = new SystemMapEntities())
             {

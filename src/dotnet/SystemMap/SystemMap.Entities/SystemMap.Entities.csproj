@@ -64,6 +64,9 @@
     <Compile Include="data\edgetype.cs">
       <DependentUpon>SystemGraph.tt</DependentUpon>
     </Compile>
+    <Compile Include="data\edge_attributes.cs">
+      <DependentUpon>SystemGraph.tt</DependentUpon>
+    </Compile>
     <Compile Include="data\edge_docs.cs">
       <DependentUpon>SystemGraph.tt</DependentUpon>
     </Compile>

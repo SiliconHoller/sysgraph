@@ -19,6 +19,7 @@ namespace SystemMap.Entities.data
         {
             this.edge_docs = new HashSet<edge_docs>();
             this.process_membership = new HashSet<process_membership>();
+            this.edge_attributes = new HashSet<edge_attributes>();
         }
     
         public int edgeid { get; set; }
@@ -35,5 +36,7 @@ namespace SystemMap.Entities.data
         public virtual edgetype edgetype { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<process_membership> process_membership { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<edge_attributes> edge_attributes { get; set; }
     }
 }

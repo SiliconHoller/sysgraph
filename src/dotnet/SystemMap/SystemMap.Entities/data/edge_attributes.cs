@@ -12,16 +12,16 @@ namespace SystemMap.Entities.data
     using System;
     using System.Collections.Generic;
     
-    public partial class node_attributes
+    public partial class edge_attributes
     {
         public int attributeid { get; set; }
-        public int nodeid { get; set; }
+        public int edgeid { get; set; }
         public int attrtypeid { get; set; }
         public string name { get; set; }
+        public decimal edgeval { get; set; }
         public string descr { get; set; }
-        public decimal nodeval { get; set; }
     
         public virtual attribute_types attribute_types { get; set; }
-        public virtual node node { get; set; }
+        public virtual edge edge { get; set; }
     }
 }

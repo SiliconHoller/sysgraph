@@ -30,7 +30,6 @@ namespace SystemMap.Entities.data
         public virtual DbSet<edge> edges { get; set; }
         public virtual DbSet<edgetype> edgetypes { get; set; }
         public virtual DbSet<membership_types> membership_types { get; set; }
-        public virtual DbSet<node_attributes> node_attributes { get; set; }
         public virtual DbSet<node_docs> node_docs { get; set; }
         public virtual DbSet<node_membership> node_membership { get; set; }
         public virtual DbSet<node> nodes { get; set; }
@@ -39,5 +38,7 @@ namespace SystemMap.Entities.data
         public virtual DbSet<process_membership> process_membership { get; set; }
         public virtual DbSet<process_docs> process_docs { get; set; }
         public virtual DbSet<attribute_types> attribute_types { get; set; }
+        public virtual DbSet<edge_attributes> edge_attributes { get; set; }
+        public virtual DbSet<node_attributes> node_attributes { get; set; }
     }
 }

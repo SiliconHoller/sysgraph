@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SystemMap.Models
 {
-    public class NodeAttribute
+    public class EdgeAttribute
     {
         [Display(Name = "Id")]
         public int id { get; set; }
-        [Display(Name = "Node Id")]
-        public int nodeId { get; set; }
+        [Display(Name = "Edge Id")]
+        public int edgeId { get; set; }
         [Display(Name = "Name")]
         public string name { get; set; }
         [Display(Name = "Description")]
@@ -20,6 +20,6 @@ namespace SystemMap.Models
         [Display(Name = "Type")]
         public AttributeType type { get; set; }
         [Display(Name = "Value")]
-        public decimal nodeVal { get; set; }
+        public decimal edgeVal { get; set; }
     }
 }

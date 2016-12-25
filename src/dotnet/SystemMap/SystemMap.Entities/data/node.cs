@@ -21,10 +21,10 @@ namespace SystemMap.Entities.data
             this.edges1 = new HashSet<edge>();
             this.node_membership = new HashSet<node_membership>();
             this.node_membership1 = new HashSet<node_membership>();
-            this.node_attributes = new HashSet<node_attributes>();
             this.node_docs = new HashSet<node_docs>();
             this.processes = new HashSet<process>();
             this.processes1 = new HashSet<process>();
+            this.node_attributes = new HashSet<node_attributes>();
         }
     
         public int nodeid { get; set; }
@@ -42,12 +42,12 @@ namespace SystemMap.Entities.data
         public virtual ICollection<node_membership> node_membership1 { get; set; }
         public virtual nodetype nodetype { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<node_attributes> node_attributes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<node_docs> node_docs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<process> processes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<process> processes1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<node_attributes> node_attributes { get; set; }
     }
 }

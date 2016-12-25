@@ -12,7 +12,7 @@ namespace SystemMap.Models
     /// <para>Connectors can be as simple as Foreign Key relationships between tables or direct operations (CRUD) from one system to another.  They do 
     /// not have subcomponents or sub-connectors.  If that is required, use the Process model.</para>
     /// </summary>
-    public class Connector
+    public class Edge
     {
         [Display(Name="Id")]
         public int id { get; set; }
@@ -34,5 +34,7 @@ namespace SystemMap.Models
         public Node toNode { get; set; }
         [Display(Name = "Processes")]
         public IEnumerable<Process> processes { get; set; }
+        [Display(Name = "Attributes")]
+        public IEnumerable<EdgeAttribute> attributes { get; set; }
     }
 }

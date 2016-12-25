@@ -53,6 +53,7 @@
     <Compile Include="Models\Connector.cs" />
     <Compile Include="Models\DocType.cs" />
     <Compile Include="Models\Documentation.cs" />
+    <Compile Include="Models\EdgeAttribute.cs" />
     <Compile Include="Models\EdgeType.cs" />
     <Compile Include="Models\MembershipType.cs" />
     <Compile Include="Models\Node.cs" />

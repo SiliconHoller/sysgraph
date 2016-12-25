@@ -17,6 +17,7 @@ namespace SystemMap.Entities.data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public attribute_types()
         {
+            this.edge_attributes = new HashSet<edge_attributes>();
             this.node_attributes = new HashSet<node_attributes>();
         }
     
@@ -25,6 +26,8 @@ namespace SystemMap.Entities.data
         public string descr { get; set; }
         public string iconurl { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<edge_attributes> edge_attributes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<node_attributes> node_attributes { get; set; }
     }

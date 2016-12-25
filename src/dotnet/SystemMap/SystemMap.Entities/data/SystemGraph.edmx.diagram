@@ -10,11 +10,10 @@
         <EntityTypeShape EntityType="SystemMapModel.edge" Width="1.5" PointX="11.375" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.edgetype" Width="1.5" PointX="14.125" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.membership_types" Width="1.5" PointX="21.875" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SystemMapModel.node_attributes" Width="1.5" PointX="10.125" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.node_docs" Width="1.5" PointX="13.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.node_membership" Width="1.5" PointX="18.625" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SystemMapModel.node" Width="1.5" PointX="11.375" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SystemMapModel.nodetype" Width="1.5" PointX="7.625" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SystemMapModel.nodetype" Width="1.5" PointX="7.625" PointY="5" IsExpanded="true" />
         <AssociationConnector Association="SystemMapModel.FK_edgedoc_doctype" ManuallyRouted="false" />
         <AssociationConnector Association="SystemMapModel.FK_nodedoc_doctype" ManuallyRouted="false" />
         <AssociationConnector Association="SystemMapModel.FK_edge_fromnode" ManuallyRouted="false" />
@@ -25,7 +24,6 @@
         <AssociationConnector Association="SystemMapModel.FK_node_nodetypes" ManuallyRouted="false" />
         <AssociationConnector Association="SystemMapModel.fk_edgedoc_edge" />
         <AssociationConnector Association="SystemMapModel.FK_edge_type" />
-        <AssociationConnector Association="SystemMapModel.FK_nodeattr_node" />
         <AssociationConnector Association="SystemMapModel.fk_nodedoc_nodes" />
         <EntityTypeShape EntityType="SystemMapModel.process" Width="1.5" PointX="16.375" PointY="6.75" />
         <AssociationConnector Association="SystemMapModel.FK_process_type" />
@@ -38,8 +36,13 @@
         <EntityTypeShape EntityType="SystemMapModel.process_docs" Width="1.5" PointX="23" PointY="6.625" />
         <AssociationConnector Association="SystemMapModel.FK_processdoc_doctype" />
         <AssociationConnector Association="SystemMapModel.fk_processdoc_process" />
-        <EntityTypeShape EntityType="SystemMapModel.attribute_types" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="SystemMapModel.attribute_types" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="SystemMapModel.edge_attributes" Width="1.5" PointX="7.375" PointY="9.125" />
+        <EntityTypeShape EntityType="SystemMapModel.node_attributes" Width="1.5" PointX="7.5" PointY="1.375" />
+        <AssociationConnector Association="SystemMapModel.FK_edgeattr_attrtype" />
         <AssociationConnector Association="SystemMapModel.FK_nodeattr_attrtype" />
+        <AssociationConnector Association="SystemMapModel.FK_edgeattr_node" />
+        <AssociationConnector Association="SystemMapModel.FK_nodeattr_node" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -30,10 +30,12 @@ namespace SystemMap.Models
         [Display(Name = "Inhabitants")]
         public IEnumerable<Node> residents { get; set; }
         [Display(Name="Dependencies")]
-        public IEnumerable<Connector> dependencies { get; set; }
+        public IEnumerable<Edge> dependencies { get; set; }
         [Display(Name = "Dependents")]
-        public IEnumerable<Connector> dependents { get; set; }
+        public IEnumerable<Edge> dependents { get; set; }
         [Display(Name="Processes Involved")]
         public IEnumerable<Process> processes { get; set; }
+        [Display(Name = "Attributes")]
+        public IEnumerable<NodeAttribute> attributes { get; set; }
     }
 }
