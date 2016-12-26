@@ -228,6 +228,25 @@ namespace SystemMap.Entities.service
 
         #region AttributeType data
 
+        public AttributeType GetAttributeType(int attrid)
+        {
+            AttributeType retval = null;
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                retval = db.attribute_types
+                            .Where(at => at.attrtypeid == attrid)
+                            .Select(at => new AttributeType
+                            {
+                                typeId = at.attrtypeid,
+                                name = at.name,
+                                description = at.descr,
+                                iconUrl = at.iconurl
+                            })
+                            .SingleOrDefault();
+            }
+            return retval;
+        }
+
         public AttributeType GetAttributeType(string typename, bool typeadd = false)
         {
             AttributeType atype = null;
@@ -321,6 +340,20 @@ namespace SystemMap.Entities.service
                 }
             }
         }
+
+        public void DeleteAttributeType(int atypeid)
+        {
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                attribute_types delrec = db.attribute_types.Where(at => at.attrtypeid == atypeid).SingleOrDefault();
+                if (delrec != null)
+                {
+                    db.attribute_types.Remove(delrec);
+                    db.SaveChanges();
+                }
+            }
+        }
+
         #endregion
 
         #region MembershipType data

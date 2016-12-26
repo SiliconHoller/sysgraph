@@ -10,114 +10,6 @@ namespace SystemMap.Entities.service
 {
     public class AttributeService
     {
-        #region General listings
-        
-        public IEnumerable<AttributeType> ListTypes()
-        {
-            List<AttributeType> attList = new List<AttributeType>();
-            using (SystemMapEntities db = new SystemMapEntities())
-            {
-                attList = db.attribute_types
-                            .OrderBy(a => a.name)
-                            .Select(a => new AttributeType
-                            {
-                                typeId = a.attrtypeid,
-                                name = a.name,
-                                description = a.descr,
-                                iconUrl = a.iconurl
-                            })
-                            .ToList<AttributeType>();
-            }
-            return attList;
-        }
-
-        public AttributeType GetAttributeType(int attrid)
-        {
-            AttributeType retval = null;
-            using (SystemMapEntities db = new SystemMapEntities())
-            {
-                retval = db.attribute_types
-                            .Where(at => at.attrtypeid == attrid)
-                            .Select(at => new AttributeType
-                            {
-                                typeId = at.attrtypeid,
-                                name = at.name,
-                                description = at.descr,
-                                iconUrl = at.iconurl
-                            })
-                            .SingleOrDefault();
-            }
-            return retval;
-        }
-
-        #endregion
-
-        #region Attribute Type Management
-
-        public AttributeType AddType(AttributeType natt)
-        {
-            AttributeType added = null;
-            using (SystemMapEntities db = new SystemMapEntities())
-            {
-                int ecount = db.attribute_types
-                                .Where(at => at.name == natt.name)
-                                .Count();
-                if (ecount > 0)
-                {
-                    added = db.attribute_types
-                                .Where(at => at.name == natt.name)
-                                .OrderBy(at=>at.attrtypeid)
-                                .Select(at => new AttributeType
-                                {
-                                    typeId = at.attrtypeid,
-                                    name = at.name,
-                                    description = at.descr,
-                                    iconUrl = at.iconurl
-                                })
-                                .FirstOrDefault();
-                }
-                else
-                {
-                    attribute_types nrec = new attribute_types { name = natt.name, descr = natt.description, iconurl = natt.iconUrl };
-                    db.attribute_types.Add(nrec);
-                    db.SaveChanges();
-                    added = new AttributeType { typeId = nrec.attrtypeid, name = nrec.name, description = nrec.descr, iconUrl = nrec.iconurl };
-                }
-            }
-            return added;
-        }
-
-        public void UpdateType(AttributeType udata)
-        {
-            using (SystemMapEntities db = new SystemMapEntities())
-            {
-                attribute_types urec = db.attribute_types
-                                            .Where(at => at.attrtypeid == udata.typeId)
-                                            .SingleOrDefault();
-                if (urec != null)
-                {
-                    urec.name = udata.name;
-                    urec.descr = udata.description;
-                    urec.iconurl = udata.iconUrl;
-                    db.SaveChanges();
-                }
-            }
-        }
-
-        public void DeleteType(int atypeid)
-        {
-            using (SystemMapEntities db = new SystemMapEntities())
-            {
-                attribute_types delrec = db.attribute_types.Where(at => at.attrtypeid == atypeid).SingleOrDefault();
-                if (delrec != null)
-                {
-                    db.attribute_types.Remove(delrec);
-                    db.SaveChanges();
-                }
-            }
-        }
-
-        #endregion
 
         #region Node attributes
 
@@ -166,7 +58,7 @@ namespace SystemMap.Entities.service
                     name = nrec.name,
                     description = nrec.descr
                 };
-                retval.type = GetAttributeType(nrec.attrtypeid);
+                retval.type = new TypeService().GetAttributeType(nrec.attrtypeid);
             }
             return retval;
         }
@@ -252,7 +144,7 @@ namespace SystemMap.Entities.service
                     name = erec.name,
                     description = erec.descr
                 };
-                retval.type = GetAttributeType(erec.attrtypeid);
+                retval.type = new TypeService().GetAttributeType(erec.attrtypeid);
             }
             return retval;
         }

@@ -13,7 +13,8 @@ namespace SystemMap.Models
     {
         public int documentationId { get; set; }
         public int componentId { get; set; }
-        public DocType DocumentType { get; set; }
+        public int docTypeId { get; set; }
+        public DocType documentType { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string url { get; set; }
