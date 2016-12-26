@@ -78,6 +78,37 @@ namespace SystemMap.Entities.service
             return elist;
         }
 
+        /// <summary>
+        /// Given a list of edges (from another filter selection), return Edge data for each in a collection
+        /// </summary>
+        /// <param name="eidList">Collection of edge identity values</param>
+        /// <returns>Collection of edge model data for each record, if it exists; otherwise, an empty collection.</returns>
+        public IEnumerable<Edge> GetListedEdges(IEnumerable<int> eidList)
+        {
+            List<Edge> edgeList = new List<Edge>();
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                edgeList = db.edges.Where(e => eidList.Contains(e.edgeid))
+                            .OrderBy(e => e.name)
+                            .Select(e => new Edge
+                            {
+                                id = e.edgeid,
+                                name = e.name,
+                                description = e.descr,
+                                fromNodeId = e.from_node,
+                                toNodeId = e.to_node,
+                                type = new EdgeType
+                                {
+                                    typeId = e.edgetypeid,
+                                    name = e.edgetype.name,
+                                    iconUrl = e.edgetype.iconurl
+                                }
+                            })
+                            .ToList<Edge>();
+            }
+            return edgeList;
+        }
+
         #endregion
 
         #region Write/update operations

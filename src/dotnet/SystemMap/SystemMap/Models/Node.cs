@@ -39,5 +39,23 @@ namespace SystemMap.Models
         public IEnumerable<NodeAttribute> attributes { get; set; }
         [Display(Name = "Docs")]
         public IEnumerable<Documentation> docs { get; set; }
+
+        #region Calculated values
+
+        [Display(Name = "Total Value")]
+        public decimal? val
+        {
+            get
+            {
+                decimal? retval = null;
+                if (attributes != null)
+                {
+                    retval = attributes.Sum(a => a.nodeVal);
+                }
+                return retval;
+            }
+        }
+
+        #endregion
     }
 }

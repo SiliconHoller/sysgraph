@@ -44,6 +44,39 @@ namespace SystemMap.Entities.service
         }
 
         /// <summary>
+        /// Given a list of node id values (from another filter process, for example), return a collection
+        /// of the given records.
+        /// </summary>
+        /// <param name="nodeIdList">List of node id values</param>
+        /// <returns>Collection of node models with the given identities, if they exist; if none found, and empty collection.</returns>
+        public IEnumerable<Node> GetListedNodes(IEnumerable<int> nodeIdList)
+        {
+            List<Node> nlist = new List<Node>();
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                nlist = db.nodes
+                        .Where(n => nodeIdList.Contains(n.nodeid))
+                        .OrderBy(n => n.name)
+                        .Select(n => new Node
+                        {
+                            id = n.nodeid,
+                            name = n.name,
+                            description = n.descr,
+                            type = new NodeType
+                            {
+                                typeId = n.nodetype.typeid,
+                                name = n.nodetype.name,
+                                iconUrl = n.nodetype.iconurl,
+                                description = n.nodetype.descr
+                            }
+                        })
+                        .ToList<Node>();
+
+            }
+            return nlist;
+        }
+
+        /// <summary>
         /// Return a colleciton of the nodes of a particular type
         /// </summary>
         /// <param name="typeid">Type of interest</param>
@@ -67,6 +100,8 @@ namespace SystemMap.Entities.service
 
             return nlist;
         }
+
+
 
         /// <summary>
         /// Return a collection of the nodes which are classified as containers of this node

@@ -35,5 +35,37 @@ namespace SystemMap.Models
         [Display(Name="Operations")]
         public IEnumerable<Edge> actions { get; set; }
 
+        #region Calculated values
+
+        [Display(Name = "Node Total")]
+        public decimal? nodeSum
+        {
+            get
+            {
+                decimal? retval = null;
+                if (actors != null)
+                {
+                    retval = actors.Sum(a => a.val);
+                }
+                return retval;
+            }
+        }
+
+        [Display(Name="Edge Total")]
+        public decimal? edgeSum
+        {
+            get
+            {
+                decimal? retval = null;
+                if (actions != null)
+                {
+                    retval = actions.Sum(e => e.val);
+                }
+                return retval;
+            }
+        }
+
+        #endregion
+
     }
 }
