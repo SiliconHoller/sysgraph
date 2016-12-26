@@ -37,5 +37,7 @@ namespace SystemMap.Models
         public IEnumerable<Process> processes { get; set; }
         [Display(Name = "Attributes")]
         public IEnumerable<NodeAttribute> attributes { get; set; }
+        [Display(Name = "Docs")]
+        public IEnumerable<Documentation> docs { get; set; }
     }
 }

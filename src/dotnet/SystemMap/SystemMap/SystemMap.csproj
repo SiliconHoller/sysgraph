@@ -47,10 +47,11 @@
     <Compile Include="Enums\DocTypes.cs" />
     <Compile Include="Enums\ResidencyTypes.cs" />
     <Compile Include="Enums\RecordRelationships.cs" />
+    <Compile Include="Enums\ValueTypes.cs" />
     <Compile Include="Models\AbstractTypeModel.cs" />
     <Compile Include="Models\AdjacencyList.cs" />
     <Compile Include="Models\AttributeType.cs" />
-    <Compile Include="Models\Connector.cs" />
+    <Compile Include="Models\Edge.cs" />
     <Compile Include="Models\DocType.cs" />
     <Compile Include="Models\Documentation.cs" />
     <Compile Include="Models\EdgeAttribute.cs" />

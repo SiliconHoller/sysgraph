@@ -14,6 +14,8 @@ namespace SystemMap.Models
     /// </summary>
     public class Edge
     {
+        #region Properties
+        
         [Display(Name="Id")]
         public int id { get; set; }
         [Display(Name="Type")]
@@ -32,9 +34,36 @@ namespace SystemMap.Models
         public Node fromNode { get; set; }
         [Display(Name="To Component")]
         public Node toNode { get; set; }
+
+        #endregion
+
+        #region Associations
+
         [Display(Name = "Processes")]
         public IEnumerable<Process> processes { get; set; }
         [Display(Name = "Attributes")]
         public IEnumerable<EdgeAttribute> attributes { get; set; }
+        [Display(Name = "Docs")]
+        public IEnumerable<Documentation> docs { get; set; }
+
+        #endregion
+
+        #region Calculated values
+
+        [Display(Name="Total Value")]
+        public decimal? val
+        {
+            get
+            {
+                decimal? retval = null;
+                if (attributes != null)
+                {
+                    retval = attributes.Sum(a => a.edgeVal);
+                }
+                return retval;
+            }
+        }
+
+        #endregion
     }
 }

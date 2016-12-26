@@ -15,7 +15,7 @@ namespace SystemMap.Entities.util
     {
         private string[] nodeEnums = { "DbClasses", "ItActorTypes", "CrmEntities" };
         private string[] edgeEnums = { "RecordKeys","RecordOperations", "InterSystemConnectivity", "DbProcesses", "CrmProcesses" };
-        private string[] attrEnums = { "DbColumnAttributes", "CrmDataTypes" };
+        private string[] attrEnums = { "DbColumnAttributes", "CrmDataTypes", "ValueTypes" };
         private string[] memEnums = { "DbClasses", "ResidencyTypes" };
         private string[] docEnums = { "DocTypes" };
 
