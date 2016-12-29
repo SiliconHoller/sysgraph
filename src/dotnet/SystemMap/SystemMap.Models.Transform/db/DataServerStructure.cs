@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SystemMap.Models.Transform.db
 {
-    public abstract class DbServerNode : DataSourceNodeBase
+    public class DataServerStructure
     {
-
+        public DataSourceNodeBase ServerNode { get; set; }
+        public List<DataSourceStructure> Databases { get; set; }
     }
 }

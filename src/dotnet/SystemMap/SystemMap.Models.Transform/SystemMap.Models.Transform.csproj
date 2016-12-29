@@ -50,13 +50,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="db\DatabaseNode.cs" />
+    <Compile Include="db\DataConnection.cs" />
+    <Compile Include="db\DataServerStructure.cs" />
+    <Compile Include="db\DataSourceStructure.cs" />
     <Compile Include="db\DataSourceNodeBase.cs" />
-    <Compile Include="db\DbServerNode.cs" />
-    <Compile Include="db\FunctionNode.cs" />
-    <Compile Include="db\TableNode.cs" />
-    <Compile Include="db\ViewNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerFunctionNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerInspector.cs" />
+    <Compile Include="db\sqlserver\SqlServerInstanceNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerDatabaseNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerLinkServerNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerProcedureNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerTableNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerTriggerNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerViewNode.cs" />
+    <Compile Include="db\utils\DbInspector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="util\EnumParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SystemMap\SystemMap.csproj">
@@ -64,10 +73,7 @@
       <Name>SystemMap</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="db\sqlserver\" />
-    <Folder Include="db\utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
