@@ -30,14 +30,15 @@ namespace SystemMap.Models.Transform.db.sqlserver
             using (SqlConnection dbinstance = new SqlConnection(dbconnbuilder.ConnectionString))
             {
                 dbinstance.Open();
-                DataTable databases = dbinstance.GetSchema();
+                DataTable databases = dbinstance.GetSchema(SqlClientMetaDataCollectionNames.Databases);
                 foreach (DataRow dbrow in databases.Rows)
                 {
-                    SqlConnectionStringBuilder dbconn = new SqlConnectionStringBuilder(dbinstance.ConnectionString);
+                    SqlConnectionStringBuilder dbconn = new SqlConnectionStringBuilder(dbconnbuilder.ConnectionString);
                     dbconn.InitialCatalog = dbrow[0].ToString();
                     SqlServerDatabaseNode dbnode = new SqlServerDatabaseNode(dbconn.InitialCatalog, dbconn);
-
+                    Nodes.Add(dbnode);
                 }
+                dbinstance.Close();
             }
         }
 
