@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DbConnectivityTests.cs" />
+    <Compile Include="dbexplore\SqlServerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +80,10 @@
     <ProjectReference Include="..\SystemMap.Entities\SystemMap.Entities.csproj">
       <Project>{7816251e-4374-4d5c-adf1-1d4cab865eec}</Project>
       <Name>SystemMap.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemMap.Models.Transform\SystemMap.Models.Transform.csproj">
+      <Project>{7ab4aacf-2a8a-47ad-b8a0-2ff5adbd41f0}</Project>
+      <Name>SystemMap.Models.Transform</Name>
     </ProjectReference>
     <ProjectReference Include="..\SystemMap.Ui.Desktop\SystemMap.Ui.Desktop.csproj">
       <Project>{c8835f9e-d1f7-4034-8b71-91024700502e}</Project>

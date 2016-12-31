@@ -16,10 +16,6 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
         }
 
-        public string Schema { get; set; }
-
-        public string TableName { get; set; }
-
         protected override void LoadDatabaseObjects()
         {
             throw new NotImplementedException();
@@ -37,7 +33,7 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
         public override string ToString()
         {
-            return String.Format("Table {0}.{1}", Schema, TableName);
+            return String.Format("Table {0}.{1}", Schema, ObjectName);
         }
     }
 }

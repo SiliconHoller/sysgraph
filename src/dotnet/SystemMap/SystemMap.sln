@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemMap.Ui.DbExplorer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemMap.Ui.Desktop", "SystemMap.Ui.Desktop\SystemMap.Ui.Desktop.csproj", "{C8835F9E-D1F7-4034-8B71-91024700502E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemMap.Models.Transform", "SystemMap.Models.Transform\SystemMap.Models.Transform.csproj", "{7AB4AACF-2A8A-47AD-B8A0-2FF5ADBD41F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{C8835F9E-D1F7-4034-8B71-91024700502E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8835F9E-D1F7-4034-8B71-91024700502E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8835F9E-D1F7-4034-8B71-91024700502E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB4AACF-2A8A-47AD-B8A0-2FF5ADBD41F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB4AACF-2A8A-47AD-B8A0-2FF5ADBD41F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB4AACF-2A8A-47AD-B8A0-2FF5ADBD41F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB4AACF-2A8A-47AD-B8A0-2FF5ADBD41F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

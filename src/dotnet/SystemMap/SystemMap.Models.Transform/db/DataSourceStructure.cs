@@ -11,5 +11,10 @@ namespace SystemMap.Models.Transform.db
         public DataSourceNodeBase DataSource { get; set; }
         public List<DataSourceNodeBase> Nodes { get; set; }
         public List<DataConnection> Relationships { get; set; }
+
+        public override string ToString()
+        {
+            return DataSource == null ? "<Empty>" : DataSource.Name;
+        }
     }
 }

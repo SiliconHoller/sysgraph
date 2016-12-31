@@ -34,6 +34,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="db\ConnectionListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="db\ConnectionListPanel.Designer.cs">
+      <DependentUpon>ConnectionListPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\IDbAuthenticationControl.cs" />
+    <Compile Include="db\NodeListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="db\NodeListPanel.Designer.cs">
+      <DependentUpon>NodeListPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="db\SqlServerAuthControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="db\SqlServerAuthControl.Designer.cs">
+      <DependentUpon>SqlServerAuthControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -49,10 +69,25 @@
       <Project>{7816251e-4374-4d5c-adf1-1d4cab865eec}</Project>
       <Name>SystemMap.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SystemMap.Models.Transform\SystemMap.Models.Transform.csproj">
+      <Project>{7ab4aacf-2a8a-47ad-b8a0-2ff5adbd41f0}</Project>
+      <Name>SystemMap.Models.Transform</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SystemMap\SystemMap.csproj">
       <Project>{9abbd493-9b5e-414f-9eee-9164ebbbab5d}</Project>
       <Name>SystemMap</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="db\ConnectionListPanel.resx">
+      <DependentUpon>ConnectionListPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="db\NodeListPanel.resx">
+      <DependentUpon>NodeListPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="db\SqlServerAuthControl.resx">
+      <DependentUpon>SqlServerAuthControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -29,6 +29,10 @@ namespace SystemMap.Models.Transform.db
             }
         }
 
+        public string Schema { get; set; }
+
+        public string ObjectName { get; set; }
+
         public string Name { get { return txt; } }
 
         public List<DataSourceNodeBase> ResidentNodes { get; set; }
