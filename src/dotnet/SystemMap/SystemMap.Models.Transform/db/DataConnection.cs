@@ -12,6 +12,7 @@ namespace SystemMap.Models.Transform.db
         public Enum ConnectionType { get; set; }
         public DataSourceNodeBase StartNode { get; set; }
         public DataSourceNodeBase EndNode { get; set; }
-
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

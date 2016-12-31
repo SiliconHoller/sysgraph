@@ -9,15 +9,16 @@ namespace SystemMap.Models.Transform.db.sqlserver
 {
     public class SqlServerTableNode : DataSourceNodeBase
     {
-        protected string schema;
-        protected string tableName;
 
-        public SqlServerTableNode(string schema, string tableName, SqlConnectionStringBuilder cbuilder)
-            : base(String.Format("{0}.{1}",schema,tableName), cbuilder)
+        public SqlServerTableNode(string tableName, SqlConnectionStringBuilder cbuilder)
+            : base(tableName, cbuilder)
         {
-            this.schema = schema;
-            this.tableName = tableName;
+
         }
+
+        public string Schema { get; set; }
+
+        public string TableName { get; set; }
 
         protected override void LoadDatabaseObjects()
         {
@@ -36,7 +37,7 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
         public override string ToString()
         {
-            return String.Format("Table {0}.{1}", schema, tableName);
+            return String.Format("Table {0}.{1}", Schema, TableName);
         }
     }
 }

@@ -15,19 +15,30 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
         }
 
+        public string Schema { get; set; }
+
+        public string ViewName { get; set; }
+
+
+        
         protected override void LoadDatabaseObjects()
         {
-            throw new NotImplementedException();
+
         }
 
         protected override void LoadDatabaseRelationships()
         {
-            throw new NotImplementedException();
+
         }
 
         protected override void LoadDatabaseAttributes()
         {
-            throw new NotImplementedException();
+
+        }
+
+        public override string ToString()
+        {
+            return String.Format("View {0}.{1}", Schema, ViewName);
         }
     }
 }
