@@ -16,11 +16,41 @@ namespace SystemMap.Entities.service
         #region Getters
 
         /// <summary>
+        /// Get Node by name
+        /// </summary>
+        /// <param name="nodeName">Name of node to find</param>
+        /// <returns>Node model, if exists; otherwise, a null value.</returns>
+        public Node GetByName(string nodeName)
+        {
+            Node retval = null;
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                retval = db.nodes.Where(n => n.name == nodeName)
+                                .Select(n => new Node 
+                                {
+                                    id = n.nodeid,
+                                    name = n.name,
+                                    description = n.descr,
+                                    type = new NodeType
+                                    {
+                                        typeId = n.nodetype.typeid,
+                                        name = n.nodetype.name,
+                                        iconUrl = n.nodetype.iconurl,
+                                        description = n.nodetype.descr
+                                    }
+                                })
+                                .FirstOrDefault();
+            }
+            return retval;
+
+        }
+
+        /// <summary>
         /// Get Node data
         /// </summary>
         /// <param name="nodeid">Node of interest</param>
         /// <returns>Node information, if exists; otherwise, null</returns>
-        public Node GetNode(int nodeid)
+        public Node Get(int nodeid)
         {
             Node retval = null;
             using (SystemMapEntities db = new SystemMapEntities())
@@ -49,7 +79,7 @@ namespace SystemMap.Entities.service
         /// </summary>
         /// <param name="nodeIdList">List of node id values</param>
         /// <returns>Collection of node models with the given identities, if they exist; if none found, and empty collection.</returns>
-        public IEnumerable<Node> GetListedNodes(IEnumerable<int> nodeIdList)
+        public IEnumerable<Node> GetListed(IEnumerable<int> nodeIdList)
         {
             List<Node> nlist = new List<Node>();
             using (SystemMapEntities db = new SystemMapEntities())
@@ -101,33 +131,6 @@ namespace SystemMap.Entities.service
             return nlist;
         }
 
-
-
-        /// <summary>
-        /// Return a collection of the nodes which are classified as containers of this node
-        /// </summary>
-        /// <param name="nodeid">Node of interest</param>
-        /// <returns>Collection of container nodes, if they exist; otherwise an empty collection </returns>
-        public IEnumerable<Node> GetContainers(int nodeid)
-        {
-            List<Node> clist = new List<Node>();
-            using (SystemMapEntities db = new SystemMapEntities())
-            {
-                clist = db.node_membership
-                            .Where(nm => nm.membernode_id == nodeid)
-                            .Join(db.nodes, a => a.groupnode_id, b => b.nodeid, (a, b) => new { memtypeid = a.memtypeid, container = b })
-                            .Join(db.membership_types, a => a.memtypeid, b => b.memtypeid, (a, b) => new { container = a.container, mtype = b })
-                            .Select(n => new Node
-                            {
-                                id = n.container.nodeid,
-                                name = n.container.name,
-                                description = n.container.descr,
-                                memType = n.mtype != null ? new MembershipType { typeId = n.mtype.memtypeid, name = n.mtype.typename, iconUrl = n.mtype.iconurl} : null,
-                            })
-                            .ToList<Node>();
-            }
-            return clist;
-        }
 
         /// <summary>
         /// Returns a list of Nodes that are affected by or depend on the given node
@@ -191,6 +194,9 @@ namespace SystemMap.Entities.service
             return nlist;
 
         }
+
+
+
 
         #endregion
 

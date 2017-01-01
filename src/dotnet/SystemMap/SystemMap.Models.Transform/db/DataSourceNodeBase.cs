@@ -29,6 +29,8 @@ namespace SystemMap.Models.Transform.db
             }
         }
 
+        public NameSpace Lineage { get; set; }
+
         public string Schema { get; set; }
 
         public string ObjectName { get; set; }

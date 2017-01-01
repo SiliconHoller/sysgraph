@@ -45,32 +45,31 @@ namespace SystemMap.Models.Transform.db.sqlserver
         /// <summary>
         /// Query based on https://msdn.microsoft.com/en-us/library/ms190624.aspx
         /// </summary>
-        public const string DEPENDENT_VIEW_QUERY = "SELECT DISTINCT OBJECT_NAME(referencing_id) AS referencing_entity_name,   " +
+        public const string DEPENDENCY_QUERY = "SELECT DISTINCT OBJECT_NAME(referencing_id) AS referencing_entity_name,   " +
                                            "     o.type_desc AS referencing_desciption,    " +
                                             "    COALESCE(COL_NAME(referencing_id, referencing_minor_id), '(n/a)') AS referencing_minor_id,    " +
                                             "    referencing_class_desc, referenced_class_desc,   " +
                                             "    referenced_server_name, referenced_database_name, referenced_schema_name,   " +
                                             "    referenced_entity_name,    " +
-                                            "    COALESCE(COL_NAME(referenced_id, referenced_minor_id), '(n/a)') AS referenced_column_name,   " +
+                                            //"    COALESCE(COL_NAME(referenced_id, referenced_minor_id), '(n/a)') AS referenced_column_name,   " +
                                             "    is_caller_dependent, is_ambiguous   " +
                                             "FROM sys.sql_expression_dependencies AS sed   " +
-                                            "INNER JOIN sys.objects AS o ON sed.referencing_id = o.object_id   " +
-                                            "WHERE referencing_id = OBJECT_ID(@vwname); ";
+                                            "INNER JOIN sys.objects AS o ON sed.referencing_id = o.object_id;";
 
         /// <summary>
         /// Query based on https://msdn.microsoft.com/en-us/library/ms345404.aspx#TsqlProcedure
         /// </summary>
-        public const string DEPENDENT_PROCEDURE_QUERY = "SELECT DISTINCT OBJECT_NAME(referencing_id) AS referencing_entity_name,    " +
+        public const string SPECIFIC_DEPENDENCY_QUERY = "SELECT DISTINCT OBJECT_NAME(referencing_id) AS referencing_entity_name,    " +
                                                         "        o.type_desc AS referencing_desciption,    " +
                                                         "        COALESCE(COL_NAME(referencing_id, referencing_minor_id), '(n/a)') AS referencing_minor_id,    " +
                                                         "        referencing_class_desc, referenced_class_desc,   " +
                                                         "        referenced_server_name, referenced_database_name, referenced_schema_name,   " +
                                                         "        referenced_entity_name,    " +
-                                                        "        COALESCE(COL_NAME(referenced_id, referenced_minor_id), '(n/a)') AS referenced_column_name,   " +
+                                                        //"        COALESCE(COL_NAME(referenced_id, referenced_minor_id), '(n/a)') AS referenced_column_name,   " +
                                                         "        is_caller_dependent, is_ambiguous   " +
                                                         "    FROM sys.sql_expression_dependencies AS sed   " +
                                                         "    INNER JOIN sys.objects AS o ON sed.referencing_id = o.object_id " +
-                                                        "    WHERE referencing_id = OBJECT_ID(@procname);";  
+                                                        "    WHERE referencing_id = OBJECT_ID(@depName);";  
 
         
         protected List<SqlServerTableNode> tableList;
@@ -105,8 +104,89 @@ namespace SystemMap.Models.Transform.db.sqlserver
             if (Relationships == null) Relationships = new List<DataConnection>();
             Relationships.Clear();
 
+            //Foreign key relationships
             LoadTableRelationships();
-            LoadViewRelationships();
+            //View, procedure, and function relationships
+            DataTable refdatatable = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(DEPENDENCY_QUERY, conn))
+                {
+                    sda.Fill(refdatatable);
+                }
+                conn.Close();
+            }
+            //start parsing through the data rows
+            string referencing;
+            string referenced;
+            foreach (DataRow refrow in refdatatable.Rows)
+            {
+                referencing = refrow["referencing_entity_name"].ToString();
+                referenced = refrow["referenced_entity_name"].ToString();
+                DataSourceNodeBase referrer = Nodes.Where(n => n.ObjectName == referencing).FirstOrDefault();
+                if (referrer != null)
+                {
+                    //We have a start node
+                    DataConnection depconn = new DataConnection
+                    {
+                        ConnectionType = RecordKeys.Dependency,
+                        StartNode = null,
+                        EndNode = referrer
+                    };
+                    if (refrow["referenced_server_name"] == null && refrow["referenced_database_name"] == null)
+                    {
+                        //Dealing with an internal reference
+                        depconn.StartNode = Nodes.Where(n => n.ObjectName == referenced).FirstOrDefault();
+                    }
+                    else
+                    {
+                        //Dealing with an external reference
+                        string refserver = refrow["referenced_server_name"] != null ? refrow["referenced_server_name"].ToString() : null;
+                        string refdb = refrow["referenced_database_name"] != null ? refrow["referenced_database_name"].ToString() : null;
+                        string refschema = refrow["referenced_schema_name"] != null ? refrow["referenced_schema_name"].ToString() : null;
+                        string refobj = refrow["referenced_entity_name"].ToString();
+                        List<string> ancestry = new List<string>();
+                        if (!String.IsNullOrEmpty(refserver) && !String.IsNullOrWhiteSpace(refserver))
+                        {
+                            //See if such a node exists--if not, create one
+                            DataSourceNodeBase servernode = Nodes.Where(n => n.Name == refserver).FirstOrDefault();
+                            if (servernode == null)
+                            {
+                                servernode = new GenericDataSourceNode(refserver, ConnectionStringBuilder);
+                                servernode.ObjectName = refserver;
+                                Nodes.Add(servernode);
+                            }
+                            ancestry.Add(refserver);
+                            
+
+                        }
+                        if (!String.IsNullOrEmpty(refdb) && !String.IsNullOrWhiteSpace(refdb)) 
+                        {
+                            DataSourceNodeBase dbnode = Nodes.Where(n => n.Name == refdb).FirstOrDefault();
+                            if (dbnode == null)
+                            {
+                                dbnode = new GenericDataSourceNode(refdb, ConnectionStringBuilder);
+                                dbnode.ObjectName = refdb;
+                                dbnode.Lineage = CreateNameSpace(ancestry);
+                                Nodes.Add(dbnode);
+                            }
+                            ancestry.Add(refdb);
+                        }
+                        GenericDataSourceNode extrefnode = new GenericDataSourceNode(refobj, ConnectionStringBuilder);
+                        extrefnode.Schema = refschema;
+                        extrefnode.ObjectName = refobj;
+                        if (ancestry.Count > 0) extrefnode.Lineage = CreateNameSpace(ancestry);
+                        depconn.StartNode = extrefnode;
+                    }
+                    if (depconn.StartNode != null)
+                    {
+                        depconn.Name = String.Format("{0} => {1}", depconn.StartNode.ToString(), depconn.EndNode.ToString());
+                        Relationships.Add(depconn);
+                    }
+                    
+                }
+            }
 
         }
 
@@ -142,6 +222,10 @@ namespace SystemMap.Models.Transform.db.sqlserver
                     SqlServerTableNode tnode = new SqlServerTableNode(trow["TABLE_NAME"].ToString(), ConnectionStringBuilder);
                     tnode.Schema = trow["TABLE_SCHEMA"].ToString();
                     tnode.ObjectName = trow["TABLE_NAME"].ToString();
+                    List<string> ancestry = new List<string>();
+                    ancestry.Add(Name);
+                    if (!String.IsNullOrEmpty(tnode.Schema)) ancestry.Add(tnode.Schema);
+                    tnode.Lineage = CreateNameSpace(ancestry);
                     tlist.Add(tnode);
                 }
                 conn.Close();
@@ -162,6 +246,10 @@ namespace SystemMap.Models.Transform.db.sqlserver
                     SqlServerViewNode vnode = new SqlServerViewNode(vrow["TABLE_NAME"].ToString(), ConnectionStringBuilder);
                     vnode.Schema = vrow["TABLE_SCHEMA"].ToString();
                     vnode.ObjectName = vrow["TABLE_NAME"].ToString();
+                    List<string> ancestry = new List<string>();
+                    ancestry.Add(Name);
+                    if (!String.IsNullOrEmpty(vnode.Schema)) ancestry.Add(vnode.Schema);
+                    vnode.Lineage = CreateNameSpace(ancestry);
                     vlist.Add(vnode);
                 }
                 conn.Close();
@@ -172,59 +260,47 @@ namespace SystemMap.Models.Transform.db.sqlserver
         protected List<SqlServerProcedureNode> LoadProcedures()
         {
             List<SqlServerProcedureNode> plist = new List<SqlServerProcedureNode>();
-
+            using (SqlConnection conn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
+            {
+                conn.Open();
+                DataTable procs = conn.GetSchema(SqlClientMetaDataCollectionNames.Procedures, new string[] { null, null, null, "PROCEDURE" });
+                foreach (DataRow srow in procs.Rows)
+                {
+                    SqlServerProcedureNode pnode = new SqlServerProcedureNode(srow["SPECIFIC_NAME"].ToString(), ConnectionStringBuilder);
+                    pnode.Schema = srow["SPECIFIC_SCHEMA"].ToString();
+                    pnode.ObjectName = srow["SPECIFIC_NAME"].ToString();
+                    List<string> ancestry = new List<string>();
+                    ancestry.Add(Name);
+                    if (!String.IsNullOrEmpty(pnode.Schema)) ancestry.Add(pnode.Schema);
+                    pnode.Lineage = CreateNameSpace(ancestry);
+                    plist.Add(pnode);
+                }
+            }
             return plist;
         }
 
         protected List<SqlServerFunctionNode> LoadFunctions()
         {
             List<SqlServerFunctionNode> flist = new List<SqlServerFunctionNode>();
-
-            return flist;
-        }
-
-        protected  void LoadViewRelationships()
-        {
-
             using (SqlConnection conn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
             {
                 conn.Open();
-                foreach (SqlServerViewNode vw in viewList)
+                DataTable procs = conn.GetSchema(SqlClientMetaDataCollectionNames.Procedures, new string[] { null, null, null, "FUNCTION" });
+                foreach (DataRow srow in procs.Rows)
                 {
-                    DataTable viewreftable = new DataTable();
-                    using (SqlDataAdapter sda = new SqlDataAdapter(DEPENDENT_VIEW_QUERY, conn))
-                    {
-                        sda.SelectCommand.Parameters.AddWithValue("@vwname", String.Format("{0}.{1}", vw.Schema,vw.ObjectName));
-                        sda.Fill(viewreftable);
-                    }
-                    string refschema;
-                    string refobj;
-
-                    foreach (DataRow refrow in viewreftable.Rows)
-                    {
-                        refschema = refrow["referenced_schema_name"].ToString();
-                        refobj = refrow["referenced_entity_name"].ToString();
-
-                        DataSourceNodeBase refnode = Nodes.Where(r => r.Schema == refschema && r.ObjectName == refobj).SingleOrDefault();
-
-                        if (refnode != null)
-                        {
-                            DataConnection vwrel = new DataConnection
-                            {
-                                ConnectionType = RecordKeys.Dependency,
-                                StartNode = refnode,
-                                EndNode = vw,
-                                Name = String.Format("{0}.{1} => {2}.{3}", refnode.Schema, refnode.ObjectName, vw.Schema, vw.ObjectName),
-                                Description = String.Format("{0}.{1} provides values for View {2}.{3}", refnode.Schema, refnode.ObjectName, vw.Schema, vw.ObjectName)
-                            };
-                            Relationships.Add(vwrel);
-
-                        }
-                    }
+                    SqlServerFunctionNode fnode = new SqlServerFunctionNode(srow["SPECIFIC_NAME"].ToString(), ConnectionStringBuilder);
+                    fnode.Schema = srow["SPECIFIC_SCHEMA"].ToString();
+                    fnode.ObjectName = srow["SPECIFIC_NAME"].ToString();
+                    List<string> ancestry = new List<string>();
+                    ancestry.Add(Name);
+                    if (!String.IsNullOrEmpty(fnode.Schema)) ancestry.Add(fnode.Schema);
+                    fnode.Lineage = CreateNameSpace(ancestry);
+                    flist.Add(fnode);
                 }
-                conn.Close();
             }
+            return flist;
         }
+
 
         protected void LoadTableRelationships()
         {
@@ -266,6 +342,26 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
                 }
             }
+        }
+
+        protected NameSpace CreateNameSpace(IEnumerable<string> names)
+        {
+            NameSpace ns = new NameSpace();
+            
+            if (names != null)
+            {
+                List<Membership> plist = new List<Membership>();
+                foreach (string cname in names)
+                {
+                    Membership ancestor = new Membership
+                    {
+                        containingNode = new Node { name = cname}
+                    };
+                    plist.Add(ancestor);
+                }
+                ns.containers = plist;
+            }
+            return ns;
         }
     }
 }

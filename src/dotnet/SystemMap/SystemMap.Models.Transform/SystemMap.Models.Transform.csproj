@@ -54,6 +54,7 @@
     <Compile Include="db\DataServerStructure.cs" />
     <Compile Include="db\DataSourceStructure.cs" />
     <Compile Include="db\DataSourceNodeBase.cs" />
+    <Compile Include="db\GenericDataSourceNode.cs" />
     <Compile Include="db\sqlserver\SqlServerFunctionNode.cs" />
     <Compile Include="db\sqlserver\SqlServerInspector.cs" />
     <Compile Include="db\sqlserver\SqlServerInstanceNode.cs" />

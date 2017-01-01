@@ -18,17 +18,22 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
         protected override void LoadDatabaseObjects()
         {
-            throw new NotImplementedException();
+
         }
 
         protected override void LoadDatabaseRelationships()
         {
-            throw new NotImplementedException();
+
         }
 
         protected override void LoadDatabaseAttributes()
         {
-            throw new NotImplementedException();
+
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Stored Procedure {0}.{1}", Schema, ObjectName);
         }
     }
 }

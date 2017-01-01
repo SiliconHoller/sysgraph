@@ -5,34 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SystemMap.Models.Transform.db.sqlserver
+namespace SystemMap.Models.Transform.db
 {
-    public class SqlServerFunctionNode : DataSourceNodeBase
+    public class GenericDataSourceNode : DataSourceNodeBase
     {
-        public SqlServerFunctionNode(string funcName, SqlConnectionStringBuilder cbuilder)
-            : base(funcName, cbuilder)
+
+        public GenericDataSourceNode(string txt, SqlConnectionStringBuilder cbuilder)
+            : base(txt, cbuilder)
         {
 
         }
 
         protected override void LoadDatabaseObjects()
         {
-
+            //do nothing
         }
 
         protected override void LoadDatabaseRelationships()
         {
-
+            //do nothing
         }
 
         protected override void LoadDatabaseAttributes()
         {
-
+            //do nothing
         }
 
         public override string ToString()
         {
-            return String.Format("Function {0}.{1}", Schema, ObjectName);
+            string baseval = null;
+            if (Lineage != null) baseval = Lineage.lineageValue;
+            return String.Format("External Reference {0}{1}", baseval, ObjectName);
         }
     }
 }
