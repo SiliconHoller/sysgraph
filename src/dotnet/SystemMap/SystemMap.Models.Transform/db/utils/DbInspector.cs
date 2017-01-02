@@ -41,7 +41,7 @@ namespace SystemMap.Models.Transform.db.utils
 
         public abstract void ReloadData();
 
-        public abstract bool PersistMap();
+        public abstract void PersistMap(DataSourceStructure dbstruct);
 
         public abstract void LoadDataSource(DataSourceStructure dbstruct);
     }

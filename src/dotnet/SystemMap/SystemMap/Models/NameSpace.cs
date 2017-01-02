@@ -44,5 +44,25 @@ namespace SystemMap.Models
             }
             return sb.ToString();
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (!(obj is NameSpace)) return false;
+            NameSpace ons = (NameSpace)obj;
+            //return if the underlying nodes are the same
+            if (nodeId != 0 && ons.nodeId != 0) return nodeId == ons.nodeId;
+            bool retval = false;
+            if (containers != null && ons.containers != null)
+            {
+                if (containers.Count() != ons.containers.Count()) return false;
+                retval = true;
+                for (int i = 0; i < containers.Count(); i++)
+                {
+                    retval = retval && containers.ElementAt(i).containingNode.name.Equals(ons.containers.ElementAt(i).containingNode.name, StringComparison.CurrentCultureIgnoreCase);
+                }
+            }
+            return retval;
+        }
     }
 }

@@ -72,6 +72,45 @@ namespace SystemMap.Entities.service
             return nlist;
         }
 
+        public void AddNodeMembership(int containerId, int memid, int mtypeid)
+        {
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                int ecount = db.node_membership.Where(nm => nm.groupnode_id == containerId && nm.membernode_id == memid).Count();
+                if (ecount == 0)
+                {
+                    node_membership nm = new node_membership { groupnode_id = containerId, membernode_id = memid, memtypeid = mtypeid };
+                    db.node_membership.Add(nm);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public void UpdateNodeMembershipType(int containerId, int memid, int mtypeid)
+        {
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                node_membership nm = db.node_membership.Where(m => m.groupnode_id == containerId && m.membernode_id == memid).FirstOrDefault();
+                if (nm != null)
+                {
+                    nm.memtypeid = mtypeid;
+                    db.SaveChanges();
+                }
+            }
+        }
+
+
+        public bool NodeMembershipExists(int contId, int memid)
+        {
+            bool retval = false;
+            using (SystemMapEntities db = new SystemMapEntities())
+            {
+                int ecount = db.node_membership.Where(nm => nm.groupnode_id == contId && nm.membernode_id == memid).Count();
+                retval = ecount > 0;
+            }
+            return retval;
+        }
+
         #endregion
     }
 }

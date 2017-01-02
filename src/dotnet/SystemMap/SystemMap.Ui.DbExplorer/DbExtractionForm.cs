@@ -54,5 +54,18 @@ namespace SystemMap.Ui.DbExplorer
                 Console.WriteLine(ex.StackTrace);
             }
         }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataSourceStructure dbstruct = (DataSourceStructure)dbComboBox.SelectedValue;
+                inspector.PersistMap(dbstruct);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+        }
     }
 }

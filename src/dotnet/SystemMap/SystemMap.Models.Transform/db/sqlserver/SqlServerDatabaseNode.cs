@@ -178,6 +178,7 @@ namespace SystemMap.Models.Transform.db.sqlserver
                         extrefnode.ObjectName = refobj;
                         if (ancestry.Count > 0) extrefnode.Lineage = CreateNameSpace(ancestry);
                         depconn.StartNode = extrefnode;
+                        Nodes.Add(extrefnode);
                     }
                     if (depconn.StartNode != null)
                     {

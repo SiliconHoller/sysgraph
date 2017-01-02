@@ -69,6 +69,10 @@
     <Compile Include="util\EnumParser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SystemMap.Entities\SystemMap.Entities.csproj">
+      <Project>{7816251e-4374-4d5c-adf1-1d4cab865eec}</Project>
+      <Name>SystemMap.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SystemMap\SystemMap.csproj">
       <Project>{9abbd493-9b5e-414f-9eee-9164ebbbab5d}</Project>
       <Name>SystemMap</Name>

@@ -30,18 +30,18 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.connectButton = new System.Windows.Forms.Button();
+            this.loginControl = new SystemMap.Ui.Desktop.db.SqlServerAuthControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.exploreButton = new System.Windows.Forms.Button();
             this.dbComboBox = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.nodeListPanel = new SystemMap.Ui.Desktop.db.NodeListPanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.connListPanel = new SystemMap.Ui.Desktop.db.ConnectionListPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.saveButton = new System.Windows.Forms.Button();
-            this.loginControl = new SystemMap.Ui.Desktop.db.SqlServerAuthControl();
-            this.nodeListPanel = new SystemMap.Ui.Desktop.db.NodeListPanel();
-            this.connListPanel = new SystemMap.Ui.Desktop.db.ConnectionListPanel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -71,6 +71,13 @@
             this.connectButton.Text = "Connect";
             this.connectButton.UseVisualStyleBackColor = true;
             this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            // 
+            // loginControl
+            // 
+            this.loginControl.Location = new System.Drawing.Point(6, 19);
+            this.loginControl.Name = "loginControl";
+            this.loginControl.Size = new System.Drawing.Size(337, 153);
+            this.loginControl.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -125,6 +132,16 @@
             this.tabPage1.Text = "Objects";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // nodeListPanel
+            // 
+            this.nodeListPanel.AutoSize = true;
+            this.nodeListPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.nodeListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nodeListPanel.Location = new System.Drawing.Point(3, 3);
+            this.nodeListPanel.Name = "nodeListPanel";
+            this.nodeListPanel.Size = new System.Drawing.Size(607, 376);
+            this.nodeListPanel.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.connListPanel);
@@ -135,6 +152,15 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Relationships";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // connListPanel
+            // 
+            this.connListPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.connListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.connListPanel.Location = new System.Drawing.Point(3, 3);
+            this.connListPanel.Name = "connListPanel";
+            this.connListPanel.Size = new System.Drawing.Size(607, 376);
+            this.connListPanel.TabIndex = 0;
             // 
             // panel1
             // 
@@ -163,32 +189,7 @@
             this.saveButton.TabIndex = 0;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
-            // 
-            // loginControl
-            // 
-            this.loginControl.Location = new System.Drawing.Point(6, 19);
-            this.loginControl.Name = "loginControl";
-            this.loginControl.Size = new System.Drawing.Size(337, 153);
-            this.loginControl.TabIndex = 0;
-            // 
-            // nodeListPanel
-            // 
-            this.nodeListPanel.AutoSize = true;
-            this.nodeListPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.nodeListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nodeListPanel.Location = new System.Drawing.Point(3, 3);
-            this.nodeListPanel.Name = "nodeListPanel";
-            this.nodeListPanel.Size = new System.Drawing.Size(607, 376);
-            this.nodeListPanel.TabIndex = 0;
-            // 
-            // connListPanel
-            // 
-            this.connListPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.connListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.connListPanel.Location = new System.Drawing.Point(3, 3);
-            this.connListPanel.Name = "connListPanel";
-            this.connListPanel.Size = new System.Drawing.Size(607, 376);
-            this.connListPanel.TabIndex = 0;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // DbExtractionForm
             // 
