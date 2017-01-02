@@ -23,12 +23,9 @@ namespace SystemMap.Models
         [Display(Name = "Membership Type")]
         public MembershipType memType { get; set; }
 
-        [Display(Name="Sibling Components")]
-        public IEnumerable<Node> siblings { get; set; }
-        [Display(Name="Component of")]
-        public IEnumerable<Node> containers { get; set; }
-        [Display(Name = "Inhabitants")]
-        public IEnumerable<Node> residents { get; set; }
+        [Display(Name = "NameSpace")]
+        public NameSpace lineage { get; set; }
+
         [Display(Name="Dependencies")]
         public IEnumerable<Edge> dependencies { get; set; }
         [Display(Name = "Dependents")]
@@ -40,7 +37,7 @@ namespace SystemMap.Models
         [Display(Name = "Docs")]
         public IEnumerable<Documentation> docs { get; set; }
 
-        #region Calculated values
+       #region Calculated values
 
         [Display(Name = "Total Value")]
         public decimal? val

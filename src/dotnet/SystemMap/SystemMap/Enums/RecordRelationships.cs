@@ -26,7 +26,10 @@ namespace SystemMap.Enums
         CombinationKey = 4,
 
         [Display(Name="External System Key")]
-        ExternalSysKey = 8
+        ExternalSysKey = 8,
+
+        [Display(Name="Dependency")]
+        Dependency = 16
     }
 
     /// <summary>

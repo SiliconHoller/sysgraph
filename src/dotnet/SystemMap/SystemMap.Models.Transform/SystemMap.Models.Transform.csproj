@@ -1,21 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88DC8336-A098-4D93-B139-548C59E54495}</ProjectGuid>
+    <ProjectGuid>{7AB4AACF-2A8A-47AD-B8A0-2FF5ADBD41F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SystemMap.Tests</RootNamespace>
-    <AssemblyName>SystemMap.Tests</AssemblyName>
+    <RootNamespace>SystemMap.Models.Transform</RootNamespace>
+    <AssemblyName>SystemMap.Models.Transform</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -47,72 +42,47 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
-  <Choose>
-    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
   <ItemGroup>
-    <Compile Include="DbConnectivityTests.cs" />
-    <Compile Include="dbexplore\SqlServerTest.cs" />
+    <Compile Include="db\DataConnection.cs" />
+    <Compile Include="db\DataServerStructure.cs" />
+    <Compile Include="db\DataSourceStructure.cs" />
+    <Compile Include="db\DataSourceNodeBase.cs" />
+    <Compile Include="db\GenericDataSourceNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerFunctionNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerInspector.cs" />
+    <Compile Include="db\sqlserver\SqlServerInstanceNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerDatabaseNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerLinkServerNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerProcedureNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerTableNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerTriggerNode.cs" />
+    <Compile Include="db\sqlserver\SqlServerViewNode.cs" />
+    <Compile Include="db\utils\DbInspector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="config\dbcredentials.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\dbcredentials.config.default" />
-    <None Include="packages.config" />
+    <Compile Include="util\EnumParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SystemMap.Entities\SystemMap.Entities.csproj">
       <Project>{7816251e-4374-4d5c-adf1-1d4cab865eec}</Project>
       <Name>SystemMap.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SystemMap.Models.Transform\SystemMap.Models.Transform.csproj">
-      <Project>{7ab4aacf-2a8a-47ad-b8a0-2ff5adbd41f0}</Project>
-      <Name>SystemMap.Models.Transform</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SystemMap.Ui.Desktop\SystemMap.Ui.Desktop.csproj">
-      <Project>{c8835f9e-d1f7-4034-8b71-91024700502e}</Project>
-      <Name>SystemMap.Ui.Desktop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SystemMap\SystemMap.csproj">
       <Project>{9abbd493-9b5e-414f-9eee-9164ebbbab5d}</Project>
       <Name>SystemMap</Name>
     </ProjectReference>
   </ItemGroup>
-  <Choose>
-    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -15,6 +15,12 @@ namespace SystemMap.Enums
         [Display(Name="Database")]
         Database,
 
+        [Display(Name="Identifier")]
+        Identifier,
+
+        [Display(Name="Schema")]
+        Schema,
+
         [Display(Name="Table")]
         Table,
 

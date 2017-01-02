@@ -46,6 +46,7 @@ namespace SystemMap.Entities.service
             {
                 node_attributes nrec = new node_attributes
                                             {
+                                                nodeid = natt.nodeId,
                                                 name = natt.name,
                                                 descr = natt.description,
                                                 attrtypeid = natt.type.typeId

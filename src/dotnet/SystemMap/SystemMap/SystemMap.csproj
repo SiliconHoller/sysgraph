@@ -56,7 +56,9 @@
     <Compile Include="Models\Documentation.cs" />
     <Compile Include="Models\EdgeAttribute.cs" />
     <Compile Include="Models\EdgeType.cs" />
+    <Compile Include="Models\Membership.cs" />
     <Compile Include="Models\MembershipType.cs" />
+    <Compile Include="Models\NameSpace.cs" />
     <Compile Include="Models\Node.cs" />
     <Compile Include="Models\NodeAttribute.cs" />
     <Compile Include="Models\NodeType.cs" />

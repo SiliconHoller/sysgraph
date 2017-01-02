@@ -117,6 +117,7 @@
     <Compile Include="service\DocumentService.cs" />
     <Compile Include="service\EdgeService.cs" />
     <Compile Include="service\GraphService.cs" />
+    <Compile Include="service\MembershipService.cs" />
     <Compile Include="service\NodeService.cs" />
     <Compile Include="service\ProcessService.cs" />
     <Compile Include="service\TypeService.cs" />

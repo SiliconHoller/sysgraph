@@ -126,10 +126,15 @@ namespace SystemMap.Entities.service
             EdgeType etype = tsvc.GetEdgeType(conn.type.name, typeadd);
             using (SystemMapEntities db = new SystemMapEntities())
             {
-                edge nedge = new edge { name = conn.name, edgetypeid = etype.typeId, descr = conn.description, from_node = conn.fromNodeId, to_node = conn.toNodeId };
-                db.edges.Add(nedge);
-                db.SaveChanges();
-                retval = nedge.edgeid;
+                //check that an existing edge (u, v, name) is not already there)
+                edge curredge = db.edges.Where(e => e.from_node == conn.fromNodeId && e.to_node == conn.toNodeId && e.name == conn.name).FirstOrDefault();
+                if (curredge == null)
+                {
+                    curredge = new edge { name = conn.name, edgetypeid = etype.typeId, descr = conn.description, from_node = conn.fromNodeId, to_node = conn.toNodeId };
+                    db.edges.Add(curredge);
+                    db.SaveChanges();
+                }
+                retval = curredge.edgeid;
             }
             return retval;
         }
