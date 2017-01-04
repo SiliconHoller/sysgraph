@@ -69,13 +69,32 @@ namespace SystemMap.Models.Transform.db.sqlserver
                                                         "        is_caller_dependent, is_ambiguous   " +
                                                         "    FROM sys.sql_expression_dependencies AS sed   " +
                                                         "    INNER JOIN sys.objects AS o ON sed.referencing_id = o.object_id " +
-                                                        "    WHERE referencing_id = OBJECT_ID(@depName);";  
+                                                        "    WHERE referencing_id = OBJECT_ID(@depName);";
 
-        
+
+        protected const string TRIGGER_QUERY = "SELECT  "+
+                                                    "     sysobjects.name AS trigger_name  "+
+                                                    "    ,USER_NAME(sysobjects.uid) AS trigger_owner "+ 
+                                                    "    ,s.name AS table_schema  "+
+                                                    "    ,OBJECT_NAME(parent_obj) AS table_name  "+
+                                                    "    ,OBJECTPROPERTY( id, 'ExecIsUpdateTrigger') AS isupdate  "+
+                                                    "    ,OBJECTPROPERTY( id, 'ExecIsDeleteTrigger') AS isdelete  "+
+                                                    "    ,OBJECTPROPERTY( id, 'ExecIsInsertTrigger') AS isinsert  "+
+                                                    "    ,OBJECTPROPERTY( id, 'ExecIsAfterTrigger') AS isafter  "+
+                                                    "    ,OBJECTPROPERTY( id, 'ExecIsInsteadOfTrigger') AS isinsteadof  "+
+                                                    "    ,OBJECTPROPERTY(id, 'ExecIsTriggerDisabled') AS [disabled] "+
+                                                    "FROM sysobjects "+ 
+                                                    "INNER JOIN sys.tables t "+
+                                                    "    ON sysobjects.parent_obj = t.object_id "+
+                                                    "INNER JOIN sys.schemas s "+
+                                                    "    ON t.schema_id = s.schema_id "+
+                                                    "WHERE sysobjects.type = 'TR' ";
+
         protected List<SqlServerTableNode> tableList;
         protected List<SqlServerViewNode> viewList;
         protected List<SqlServerProcedureNode> procList;
         protected List<SqlServerFunctionNode> funcList;
+        protected List<SqlServerTriggerNode> trigList;
 
         public SqlServerDatabaseNode(string dbname, SqlConnectionStringBuilder cbuilder)
             : base(dbname, cbuilder)
@@ -97,6 +116,9 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
             funcList = LoadFunctions();
             Nodes.AddRange(funcList);
+
+            trigList = LoadTriggers();
+            Nodes.AddRange(trigList);
         }
 
         protected override void LoadDatabaseRelationships()
@@ -106,6 +128,7 @@ namespace SystemMap.Models.Transform.db.sqlserver
 
             //Foreign key relationships
             LoadTableRelationships();
+            LoadTriggerRelationships();
             //View, procedure, and function relationships
             DataTable refdatatable = new DataTable();
             using (SqlConnection conn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
@@ -298,8 +321,37 @@ namespace SystemMap.Models.Transform.db.sqlserver
                     fnode.Lineage = CreateNameSpace(ancestry);
                     flist.Add(fnode);
                 }
+                conn.Close();
             }
             return flist;
+        }
+
+        protected List<SqlServerTriggerNode> LoadTriggers()
+        {
+            List<SqlServerTriggerNode> tlist = new List<SqlServerTriggerNode>();
+            DataTable trigs = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(TRIGGER_QUERY, conn))
+                {
+                    sda.Fill(trigs);
+                }
+                conn.Close();
+            }
+            foreach (DataRow trow in trigs.Rows)
+            {
+                SqlServerTriggerNode tnode = new SqlServerTriggerNode(trow["trigger_name"].ToString(), ConnectionStringBuilder);
+                tnode.Schema = trow["table_schema"].ToString();
+                tnode.ObjectName = trow["trigger_name"].ToString();
+                List<string> ancestry = new List<string>();
+                ancestry.Add(Name);
+                ancestry.Add(tnode.Schema);
+                ancestry.Add(trow["table_name"].ToString());
+                tnode.Lineage = CreateNameSpace(ancestry);
+                tlist.Add(tnode);
+            }
+            return tlist;
         }
 
 
@@ -341,6 +393,40 @@ namespace SystemMap.Models.Transform.db.sqlserver
                     };
                     Relationships.Add(fkrel);
 
+                }
+            }
+        }
+
+        protected void LoadTriggerRelationships()
+        {
+            DataTable trigs = new DataTable();
+            using (SqlConnection conn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
+            {
+                conn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(TRIGGER_QUERY, conn))
+                {
+                    sda.Fill(trigs);
+                }
+                conn.Close();
+            }
+            foreach (DataRow trow in trigs.Rows)
+            {
+                string tblname = trow["table_name"].ToString();
+                string trigname = trow["trigger_name"].ToString();
+
+                SqlServerTriggerNode trignode = trigList.Where(t => t.ObjectName == trigname).SingleOrDefault();
+                SqlServerTableNode tblnode = tableList.Where(t => t.ObjectName == tblname).SingleOrDefault();
+                if (trignode != null && tblnode != null) 
+                { 
+                    DataConnection trigrel = new DataConnection
+                    {
+                        ConnectionType = DbProcesses.Trigger,
+                        StartNode = trignode,
+                        EndNode = tblnode,
+                        Name = String.Format("Trigger {0} => {1}.{2}", trignode.ObjectName, tblnode.Schema, tblnode.ObjectName),
+                        Description = "Table Trigger"
+                    };
+                    Relationships.Add(trigrel);
                 }
             }
         }
