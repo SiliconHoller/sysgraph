@@ -23,6 +23,16 @@ namespace SystemMap.Services.Restful
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/d3").Include(
+                    "~/Scripts/d3/d3.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bihisankey").Include(
+                    "~/Scripts/d3/bihisankey.js"));
+            bundles.Add(new ScriptBundle("~/bundles/dependency").Include(
+                    "~/Scripts/d3/d3.dependencyWheel.js"));
+            bundles.Add(new ScriptBundle("~/bundles/conversion").Include(
+                    "~/Scripts/conversion/d3convert.js"));
         }
     }
 }

@@ -21,6 +21,7 @@ namespace SystemMap.Models
             {
                 alist.Add(new AdjacencyListEntry { nodeId = keyval, connections = adjDictionary[keyval] });
             }
+            entries = alist;
         }
     }
 
